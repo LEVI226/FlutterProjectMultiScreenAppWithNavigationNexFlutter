@@ -1,0 +1,9 @@
+[
+  {"id": "Breakfast", "name": "Breakfast", "emoji": "🥞"},
+  {"id": "Lunch", "name": "Lunch", "emoji": "🥗"},
+  {"id": "Dinner", "name": "Dinner", "emoji": "🍲"},
+  {"id": "Dessert", "name": "Dessert", "emoji": "🍰"},
+  {"id": "Healthy", "name": "Healthy", "emoji": "🥑"},
+  {"id": "Vegan", "name": "Vegan", "emoji": "🌱"},
+  {"id": "Drinks", "name": "Drinks", "emoji": "🍹"}
+]

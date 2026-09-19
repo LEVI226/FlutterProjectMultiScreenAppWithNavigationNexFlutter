@@ -1,0 +1,405 @@
+[
+  {
+    "id": "creamy-garlic-pasta",
+    "title": "Creamy Garlic Pasta",
+    "description": "A quick, silky Italian comfort dish with sautéed garlic, heavy cream, freshly grated parmesan, and al dente pasta.",
+    "category": "Dinner",
+    "imageUrl": "https://images.unsplash.com/photo-1600803907087-f56d462fd26b?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 25,
+    "cookMinutes": 15,
+    "servings": 2,
+    "difficulty": "Easy",
+    "calories": 420,
+    "rating": 4.8,
+    "ratingCount": 240,
+    "authorName": "Chef Amelia Vance",
+    "ingredients": [
+      {"name": "Tagliatelle or spaghetti", "quantity": 200, "unit": "g"},
+      {"name": "Garlic cloves", "quantity": 3, "unit": "cloves"},
+      {"name": "Heavy cooking cream", "quantity": 120, "unit": "ml"},
+      {"name": "Parmigiano-Reggiano", "quantity": 50, "unit": "g"},
+      {"name": "Extra virgin olive oil", "quantity": 2, "unit": "tbsp"},
+      {"name": "Sea salt & black pepper", "quantity": 1, "unit": "to taste"}
+    ],
+    "steps": [
+      {"title": "Boil Pasta", "description": "Boil salted water and cook pasta al dente (8-9 min). Reserve 1/2 cup starchy pasta water before draining.", "minutes": 9},
+      {"title": "Sauté Aromatics", "description": "Sauté sliced garlic gently in olive oil until fragrant and pale golden, avoiding browning.", "minutes": 2},
+      {"title": "Emulsify Sauce", "description": "Stir in cream and grated parmesan until smooth, then toss the drained hot pasta through the pan.", "minutes": 3}
+    ]
+  },
+  {
+    "id": "grilled-chicken-bowl",
+    "title": "Grilled Chicken Bowl",
+    "description": "Grilled chicken breast over quinoa with avocado, cherry tomatoes, and a tahini drizzle.",
+    "category": "Lunch",
+    "imageUrl": "https://images.unsplash.com/photo-1788090485545-26c4d90f9c9f?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 15,
+    "cookMinutes": 15,
+    "servings": 2,
+    "difficulty": "Medium",
+    "calories": 480,
+    "rating": 4.7,
+    "ratingCount": 312,
+    "authorName": "Chef Marcus Lee",
+    "ingredients": [
+      {"name": "Chicken breast", "quantity": 2, "unit": "pieces"},
+      {"name": "Cooked quinoa", "quantity": 300, "unit": "g"},
+      {"name": "Avocado", "quantity": 1, "unit": "sliced"},
+      {"name": "Cherry tomatoes", "quantity": 10, "unit": "halved"},
+      {"name": "Tahini", "quantity": 2, "unit": "tbsp"}
+    ],
+    "steps": [
+      {"title": "Grill Chicken", "description": "Season chicken breast and grill 6-7 minutes per side until cooked through.", "minutes": 14},
+      {"title": "Assemble Bowl", "description": "Layer quinoa, sliced chicken, avocado, and tomatoes in a bowl.", "minutes": 5},
+      {"title": "Drizzle & Serve", "description": "Drizzle with tahini and serve warm.", "minutes": 1}
+    ]
+  },
+  {
+    "id": "avocado-toast-egg",
+    "title": "Avocado Toast & Egg",
+    "description": "Toasted sourdough topped with smashed avocado, a soft poached egg, and chili flakes.",
+    "category": "Breakfast",
+    "imageUrl": "https://images.unsplash.com/photo-1687276287139-88f7333c8ca4?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 10,
+    "cookMinutes": 5,
+    "servings": 1,
+    "difficulty": "Easy",
+    "calories": 320,
+    "rating": 4.9,
+    "ratingCount": 189,
+    "authorName": "Chef Amelia Vance",
+    "ingredients": [
+      {"name": "Sourdough bread", "quantity": 2, "unit": "slices"},
+      {"name": "Avocado", "quantity": 1, "unit": "whole"},
+      {"name": "Egg", "quantity": 1, "unit": "whole"},
+      {"name": "Chili flakes", "quantity": 1, "unit": "pinch"}
+    ],
+    "steps": [
+      {"title": "Toast Bread", "description": "Toast sourdough slices until golden and crisp.", "minutes": 3},
+      {"title": "Poach Egg", "description": "Poach the egg in gently simmering water for 3 minutes.", "minutes": 3},
+      {"title": "Assemble", "description": "Smash avocado onto toast, top with the poached egg and chili flakes.", "minutes": 2}
+    ]
+  },
+  {
+    "id": "spicy-miso-ramen",
+    "title": "Spicy Miso Ramen",
+    "description": "Steaming ramen noodles in a spicy miso broth with chashu pork, bamboo shoots, and a marinated egg.",
+    "category": "Dinner",
+    "imageUrl": "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 15,
+    "cookMinutes": 25,
+    "servings": 2,
+    "difficulty": "Hard",
+    "calories": 620,
+    "rating": 4.8,
+    "ratingCount": 156,
+    "authorName": "Chef Haruto Sato",
+    "ingredients": [
+      {"name": "Ramen noodles", "quantity": 2, "unit": "portions"},
+      {"name": "Miso paste", "quantity": 3, "unit": "tbsp"},
+      {"name": "Chashu pork", "quantity": 150, "unit": "g"},
+      {"name": "Marinated egg", "quantity": 2, "unit": "whole"},
+      {"name": "Chili oil", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      {"title": "Prepare Broth", "description": "Simmer stock with miso paste until dissolved and fragrant.", "minutes": 15},
+      {"title": "Cook Noodles", "description": "Cook ramen noodles according to package instructions.", "minutes": 4},
+      {"title": "Assemble Bowl", "description": "Combine noodles and broth, top with chashu, egg, and chili oil.", "minutes": 3}
+    ]
+  },
+  {
+    "id": "chocolate-pancakes",
+    "title": "Chocolate Pancakes",
+    "description": "Fluffy chocolate pancakes stacked high with melted dark chocolate sauce and fresh raspberries.",
+    "category": "Dessert",
+    "imageUrl": "https://images.unsplash.com/photo-1597699401474-e8714c1b7879?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 10,
+    "cookMinutes": 10,
+    "servings": 3,
+    "difficulty": "Easy",
+    "calories": 410,
+    "rating": 4.6,
+    "ratingCount": 98,
+    "authorName": "Chef Elena Rostova",
+    "ingredients": [
+      {"name": "Flour", "quantity": 200, "unit": "g"},
+      {"name": "Cocoa powder", "quantity": 30, "unit": "g"},
+      {"name": "Milk", "quantity": 250, "unit": "ml"},
+      {"name": "Dark chocolate", "quantity": 80, "unit": "g"},
+      {"name": "Raspberries", "quantity": 100, "unit": "g"}
+    ],
+    "steps": [
+      {"title": "Make Batter", "description": "Whisk flour, cocoa powder, and milk into a smooth batter.", "minutes": 5},
+      {"title": "Cook Pancakes", "description": "Cook batter in a hot pan, 2 minutes per side, until fluffy.", "minutes": 8},
+      {"title": "Top & Serve", "description": "Stack pancakes, drizzle with melted chocolate, and top with raspberries.", "minutes": 2}
+    ]
+  },
+  {
+    "id": "mediterranean-salad",
+    "title": "15-min Mediterranean Salad",
+    "description": "A fresh salad of cucumber ribbons, olives, tomatoes, and feta bathed in olive oil.",
+    "category": "Healthy",
+    "imageUrl": "https://images.unsplash.com/photo-1606735584785-1848fdcaea57?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 15,
+    "cookMinutes": 0,
+    "servings": 2,
+    "difficulty": "Easy",
+    "calories": 280,
+    "rating": 4.9,
+    "ratingCount": 850,
+    "authorName": "Chef Sofia Nikolaou",
+    "ingredients": [
+      {"name": "Cucumber", "quantity": 1, "unit": "whole"},
+      {"name": "Kalamata olives", "quantity": 60, "unit": "g"},
+      {"name": "Cherry tomatoes", "quantity": 10, "unit": "halved"},
+      {"name": "Feta cheese", "quantity": 100, "unit": "g"},
+      {"name": "Olive oil", "quantity": 2, "unit": "tbsp"}
+    ],
+    "steps": [
+      {"title": "Prep Vegetables", "description": "Ribbon the cucumber and halve the tomatoes.", "minutes": 8},
+      {"title": "Combine & Dress", "description": "Toss vegetables with olives, feta, and olive oil.", "minutes": 5},
+      {"title": "Season & Serve", "description": "Season with oregano and serve immediately.", "minutes": 2}
+    ]
+  },
+  {
+    "id": "garlic-butter-salmon",
+    "title": "Garlic Butter Salmon",
+    "description": "Pan-seared salmon fillet basted with garlic herb butter, thyme, and lemon.",
+    "category": "Dinner",
+    "imageUrl": "https://images.unsplash.com/photo-1499125562588-29fb8a56b5d5?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 10,
+    "cookMinutes": 10,
+    "servings": 2,
+    "difficulty": "Easy",
+    "calories": 450,
+    "rating": 4.8,
+    "ratingCount": 1400,
+    "authorName": "Chef Marcus Lee",
+    "ingredients": [
+      {"name": "Salmon fillets", "quantity": 2, "unit": "pieces"},
+      {"name": "Butter", "quantity": 40, "unit": "g"},
+      {"name": "Garlic cloves", "quantity": 2, "unit": "cloves"},
+      {"name": "Thyme sprigs", "quantity": 2, "unit": "sprigs"},
+      {"name": "Lemon", "quantity": 1, "unit": "sliced"}
+    ],
+    "steps": [
+      {"title": "Sear Salmon", "description": "Sear salmon skin-side down in a hot skillet for 5 minutes.", "minutes": 5},
+      {"title": "Baste with Butter", "description": "Flip, add butter, garlic, and thyme, and baste continuously.", "minutes": 4},
+      {"title": "Rest & Serve", "description": "Rest briefly, then serve with lemon slices.", "minutes": 1}
+    ]
+  },
+  {
+    "id": "chicken-teriyaki-bowl",
+    "title": "Chicken Teriyaki Bowl",
+    "description": "Charred glazed chicken over steamed rice with sesame seeds, broccoli, and scallions.",
+    "category": "Dinner",
+    "imageUrl": "https://images.unsplash.com/photo-1788090485550-ca71c6d578fb?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 15,
+    "cookMinutes": 15,
+    "servings": 2,
+    "difficulty": "Medium",
+    "calories": 540,
+    "rating": 4.7,
+    "ratingCount": 210,
+    "authorName": "Chef Haruto Sato",
+    "ingredients": [
+      {"name": "Chicken thighs", "quantity": 300, "unit": "g"},
+      {"name": "Teriyaki sauce", "quantity": 80, "unit": "ml"},
+      {"name": "Steamed rice", "quantity": 300, "unit": "g"},
+      {"name": "Broccoli florets", "quantity": 150, "unit": "g"},
+      {"name": "Sesame seeds", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      {"title": "Cook Chicken", "description": "Sear chicken thighs until browned, then glaze with teriyaki sauce.", "minutes": 12},
+      {"title": "Steam Broccoli", "description": "Steam broccoli florets until tender-crisp.", "minutes": 5},
+      {"title": "Assemble Bowl", "description": "Serve sliced chicken and broccoli over rice, topped with sesame seeds.", "minutes": 3}
+    ]
+  },
+  {
+    "id": "creamy-mushroom-risotto",
+    "title": "Creamy Mushroom Risotto",
+    "description": "Earthy arborio rice risotto with sautéed wild mushrooms and aged parmigiano-reggiano.",
+    "category": "Dinner",
+    "imageUrl": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 10,
+    "cookMinutes": 25,
+    "servings": 3,
+    "difficulty": "Medium",
+    "calories": 510,
+    "rating": 4.9,
+    "ratingCount": 175,
+    "authorName": "Chef Amelia Vance",
+    "ingredients": [
+      {"name": "Arborio rice", "quantity": 250, "unit": "g"},
+      {"name": "Mixed wild mushrooms", "quantity": 200, "unit": "g"},
+      {"name": "Vegetable stock", "quantity": 1, "unit": "liter"},
+      {"name": "Parmigiano-Reggiano", "quantity": 60, "unit": "g"},
+      {"name": "White wine", "quantity": 100, "unit": "ml"}
+    ],
+    "steps": [
+      {"title": "Sauté Mushrooms", "description": "Sauté mushrooms until golden, then set aside.", "minutes": 6},
+      {"title": "Toast & Deglaze Rice", "description": "Toast rice, deglaze with wine, then add hot stock gradually while stirring.", "minutes": 18},
+      {"title": "Finish Risotto", "description": "Stir in parmesan and mushrooms, then serve immediately.", "minutes": 2}
+    ]
+  },
+  {
+    "id": "berry-acai-smoothie-bowl",
+    "title": "Berry Acai Smoothie Bowl",
+    "description": "Deep purple açai smoothie bowl topped with blueberries, strawberries, coconut, and granola.",
+    "category": "Breakfast",
+    "imageUrl": "https://images.unsplash.com/photo-1627308594190-a057cd4bfac8?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 10,
+    "cookMinutes": 0,
+    "servings": 1,
+    "difficulty": "Easy",
+    "calories": 350,
+    "rating": 4.8,
+    "ratingCount": 430,
+    "authorName": "Chef Sofia Nikolaou",
+    "ingredients": [
+      {"name": "Frozen açai puree", "quantity": 100, "unit": "g"},
+      {"name": "Banana", "quantity": 1, "unit": "whole"},
+      {"name": "Blueberries", "quantity": 40, "unit": "g"},
+      {"name": "Granola", "quantity": 30, "unit": "g"},
+      {"name": "Coconut flakes", "quantity": 10, "unit": "g"}
+    ],
+    "steps": [
+      {"title": "Blend Base", "description": "Blend açai puree with banana until thick and smooth.", "minutes": 5},
+      {"title": "Pour & Top", "description": "Pour into a bowl and arrange blueberries, granola, and coconut on top.", "minutes": 5}
+    ]
+  },
+  {
+    "id": "artisan-sourdough-pizza",
+    "title": "Artisan Sourdough Pizza",
+    "description": "Wood-fired-style sourdough pizza with San Marzano tomato sauce, buffalo mozzarella, and basil.",
+    "category": "Lunch",
+    "imageUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 20,
+    "cookMinutes": 25,
+    "servings": 4,
+    "difficulty": "Hard",
+    "calories": 590,
+    "rating": 4.6,
+    "ratingCount": 267,
+    "authorName": "Chef Elena Rostova",
+    "ingredients": [
+      {"name": "Sourdough pizza base", "quantity": 1, "unit": "whole"},
+      {"name": "San Marzano tomato sauce", "quantity": 150, "unit": "g"},
+      {"name": "Buffalo mozzarella", "quantity": 150, "unit": "g"},
+      {"name": "Fresh basil", "quantity": 10, "unit": "leaves"},
+      {"name": "Olive oil", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      {"title": "Prepare Base", "description": "Spread tomato sauce evenly over the sourdough base.", "minutes": 5},
+      {"title": "Add Toppings", "description": "Tear mozzarella over the sauce and drizzle with olive oil.", "minutes": 5},
+      {"title": "Bake", "description": "Bake at maximum oven temperature until the crust is blistered and cheese is bubbling.", "minutes": 12},
+      {"title": "Finish", "description": "Top with fresh basil leaves before serving.", "minutes": 3}
+    ]
+  },
+  {
+    "id": "matcha-green-tea-crepes",
+    "title": "Matcha Green Tea Crepes",
+    "description": "Delicate stacked matcha mille crepes layered with whipped vanilla cream.",
+    "category": "Dessert",
+    "imageUrl": "https://images.unsplash.com/photo-1656057205408-4a0a62cf2dfb?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 20,
+    "cookMinutes": 5,
+    "servings": 4,
+    "difficulty": "Easy",
+    "calories": 380,
+    "rating": 4.5,
+    "ratingCount": 112,
+    "authorName": "Chef Haruto Sato",
+    "ingredients": [
+      {"name": "Flour", "quantity": 150, "unit": "g"},
+      {"name": "Matcha powder", "quantity": 10, "unit": "g"},
+      {"name": "Milk", "quantity": 300, "unit": "ml"},
+      {"name": "Whipped cream", "quantity": 200, "unit": "g"},
+      {"name": "Eggs", "quantity": 2, "unit": "whole"}
+    ],
+    "steps": [
+      {"title": "Make Batter", "description": "Whisk flour, matcha powder, milk, and eggs into a thin batter.", "minutes": 5},
+      {"title": "Cook Crepes", "description": "Cook thin crepes one at a time in a hot non-stick pan.", "minutes": 12},
+      {"title": "Layer & Chill", "description": "Layer crepes with whipped cream and chill before slicing.", "minutes": 3}
+    ]
+  },
+  {
+    "id": "greek-quinoa-salad",
+    "title": "Greek Quinoa Salad",
+    "description": "Crisp tri-color quinoa salad with cucumber, tomatoes, olives, and feta in a lemon herb dressing.",
+    "category": "Healthy",
+    "imageUrl": "https://images.unsplash.com/photo-1599021419847-d8a7a6aba5b4?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 15,
+    "cookMinutes": 0,
+    "servings": 2,
+    "difficulty": "Easy",
+    "calories": 340,
+    "rating": 4.7,
+    "ratingCount": 198,
+    "authorName": "Chef Sofia Nikolaou",
+    "ingredients": [
+      {"name": "Cooked quinoa", "quantity": 250, "unit": "g"},
+      {"name": "Cucumber", "quantity": 1, "unit": "diced"},
+      {"name": "Cherry tomatoes", "quantity": 10, "unit": "halved"},
+      {"name": "Kalamata olives", "quantity": 50, "unit": "g"},
+      {"name": "Feta cheese", "quantity": 80, "unit": "g"}
+    ],
+    "steps": [
+      {"title": "Prep Vegetables", "description": "Dice cucumber and halve the cherry tomatoes.", "minutes": 8},
+      {"title": "Combine & Dress", "description": "Toss quinoa with vegetables, olives, feta, and lemon dressing.", "minutes": 5},
+      {"title": "Chill & Serve", "description": "Chill briefly before serving for best flavor.", "minutes": 2}
+    ]
+  },
+  {
+    "id": "vegan-buddha-bowl",
+    "title": "Vegan Buddha Bowl",
+    "description": "A colorful bowl of roasted chickpeas, sweet potato, kale, and tahini dressing.",
+    "category": "Vegan",
+    "imageUrl": "https://images.unsplash.com/photo-1505576633757-0ac1084af824?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 15,
+    "cookMinutes": 25,
+    "servings": 2,
+    "difficulty": "Medium",
+    "calories": 460,
+    "rating": 4.7,
+    "ratingCount": 145,
+    "authorName": "Chef Marcus Lee",
+    "ingredients": [
+      {"name": "Chickpeas", "quantity": 240, "unit": "g"},
+      {"name": "Sweet potato", "quantity": 1, "unit": "whole"},
+      {"name": "Kale", "quantity": 80, "unit": "g"},
+      {"name": "Tahini", "quantity": 2, "unit": "tbsp"},
+      {"name": "Lemon juice", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      {"title": "Roast Vegetables", "description": "Roast cubed sweet potato and chickpeas at 200°C until crisp.", "minutes": 22},
+      {"title": "Massage Kale", "description": "Massage kale with a little olive oil and lemon juice.", "minutes": 3},
+      {"title": "Assemble Bowl", "description": "Combine everything in a bowl and drizzle with tahini dressing.", "minutes": 3}
+    ]
+  },
+  {
+    "id": "iced-matcha-latte",
+    "title": "Iced Matcha Latte",
+    "description": "A refreshing iced latte whisked from ceremonial-grade matcha and chilled oat milk.",
+    "category": "Drinks",
+    "imageUrl": "https://images.unsplash.com/photo-1717398804885-a6c22b3e5c2f?w=800&q=80&auto=format&fit=crop",
+    "prepMinutes": 5,
+    "cookMinutes": 0,
+    "servings": 1,
+    "difficulty": "Easy",
+    "calories": 120,
+    "rating": 4.6,
+    "ratingCount": 88,
+    "authorName": "Chef Sofia Nikolaou",
+    "ingredients": [
+      {"name": "Matcha powder", "quantity": 2, "unit": "g"},
+      {"name": "Hot water", "quantity": 60, "unit": "ml"},
+      {"name": "Oat milk", "quantity": 200, "unit": "ml"},
+      {"name": "Ice cubes", "quantity": 6, "unit": "cubes"}
+    ],
+    "steps": [
+      {"title": "Whisk Matcha", "description": "Whisk matcha powder with hot water until smooth and frothy.", "minutes": 2},
+      {"title": "Pour & Serve", "description": "Pour over ice and top with chilled oat milk.", "minutes": 2}
+    ]
+  }
+]
