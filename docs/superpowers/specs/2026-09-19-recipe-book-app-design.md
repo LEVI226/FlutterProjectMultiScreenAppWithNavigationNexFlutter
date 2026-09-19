@@ -46,7 +46,9 @@ The DESIGN.md file contains two color descriptions that disagree: a YAML front-m
 
 ## Recipe photos
 
-The exported HTML hardcodes `lh3.googleusercontent.com` preview URLs from the Stitch generation session — these are ephemeral AI-preview links, not meant for redistribution in a shipped app. Per the user's choice, recipe photos in the Flutter app instead use **Unsplash Source** thematic URLs (e.g. `https://source.unsplash.com/featured/?pasta`), stored as the `imageUrl` field in `assets/data/recipes.json` and loaded via `Image.network`. This is a data field, not a widget-level hardcode, and needs network access to render (screenshots for the README should be taken with the device online).
+The exported HTML hardcodes `lh3.googleusercontent.com` preview URLs from the Stitch generation session — these are ephemeral AI-preview links, not meant for redistribution in a shipped app. `source.unsplash.com` (the original candidate) is a redirect service Unsplash has been deprecating and can return unstable/broken results, which is a real risk for a graded submission. Instead, recipe photos use **fixed `images.unsplash.com/photo-<id>` CDN URLs** — permanent, non-redirecting links to specific photos, picked and reachability-checked during implementation — stored as the `imageUrl` field in `assets/data/recipes.json` and loaded via `Image.network`. This is a data field, not a widget-level hardcode.
+
+As a safety net against any link going stale after submission, `RecipeCard`, `FeaturedRecipeCard`, `QuickRecipeTile`, and the detail screen's hero image all use `Image.network(..., errorBuilder: ...)` falling back to a single bundled `assets/images/placeholder.png` (a simple food-icon-on-brand-color placeholder) — so a broken photo never shows a raw error icon during review. Screenshots for the README should still be taken with the device online so the real photos show.
 
 ## Architecture — flat layered structure under `lib/`
 
@@ -131,7 +133,7 @@ Deep linking demonstrated via Flutter web (typing `/recipe/<id>` into the browse
 3. **Favorites** (`/favorites`) — own design: same `RecipeCard`/list styling, filtered to `RecipeStore.favoriteIds`; empty state when none.
 4. **Profile** (`/profile`) — own design: avatar placeholder, session stats (recipes added, favorites count — both derived from `RecipeStore`, not hardcoded), and the light/dark theme switch.
 5. **Recipe Detail** (`/recipe/:id`) — hero image with time/difficulty/calorie/rating badges, title + description, author attribution card with a (decorative, non-persisted) follow toggle, a 3-tab `TabBar` (Overview / Ingredients / Steps), a servings stepper that live-recalculates ingredient quantities (matches the design's `data-base` multiplier pattern), a checkable ingredient list, a numbered steps timeline, a "Chef's Secret" tip callout, and a sticky bottom bar with "Start Cooking Mode" + an audio-guide icon button — both show a `SnackBar` only (no real timer/audio implementation, out of scope).
-6. **Add Recipe** (`/add-recipe`) — cover photo picker (via `image_picker`, in-memory `File` preview, no persistence), title + description fields, prep/cook time fields, category dropdown (from `RecipeRepository.getCategories()`), a servings stepper, a difficulty segmented control, a dynamically add/remove-able ingredients list (name + quantity + unit per row, at least 1 required), a dynamically add/remove-able steps list (at least 1 required), and Cancel/Publish actions. Publish calls `RecipeStore.addRecipe(...)` and pops back to Discover.
+6. **Add Recipe** (`/add-recipe`) — cover photo picker (via `image_picker`, returning an `XFile`; previewed in memory with no persistence — see "Mobile & platform robustness" below for the cross-platform preview detail), title + description fields, prep/cook time fields, category dropdown (from `RecipeRepository.getCategories()`), a servings stepper, a difficulty segmented control, a dynamically add/remove-able ingredients list (name + quantity + unit per row, at least 1 required), a dynamically add/remove-able steps list (at least 1 required), and Cancel/Publish actions. Publish calls `RecipeStore.addRecipe(...)` and pops back to Discover.
 
 ## Reusable widgets (5, in `widgets/`)
 
@@ -153,6 +155,16 @@ Single breakpoint at 600px logical width:
 - `< 600`: `NavigationBar` bottom bar; Discover grid at 2 columns; Home sections stay single-column/horizontal-scroll as designed.
 - `>= 600`: `NavigationRail` instead of bottom bar; Discover grid at 3–4 columns; Recipe Detail could optionally widen its content column (not required, simple centering with a max width is sufficient).
 
+## Mobile & platform robustness
+
+Since the available run targets on this machine are Android, Chrome, Edge, and Windows desktop (verified via `flutter devices`), and this is a graded submission, the implementation plan must treat these as acceptance criteria, not nice-to-haves:
+
+- **Cross-platform image picking:** `image_picker` returns an `XFile`, not a `dart:io File` (which doesn't exist on web). The Add Recipe cover photo preview is `kIsWeb`-aware: on web it reads the picked file's bytes (`await xFile.readAsBytes()`) and renders via `Image.memory`; on mobile/desktop it renders via `Image.file(File(xFile.path))`.
+- **Keyboard safety in forms:** `AddRecipeScreen` wraps its content in a `SingleChildScrollView` so the on-screen keyboard never overflows or hides the focused field (dynamic ingredient/step rows make the form long even before the keyboard opens).
+- **Safe areas:** screens with custom headers/bottom bars (Home, Discover, Recipe Detail's sticky action bar) respect `SafeArea`/`MediaQuery` padding rather than assuming a fixed status/nav bar height, matching the `pt-safe`/`pb-safe` treatment already present in the Stitch export.
+- **Full scroll on all screens:** every screen's content is scrollable end-to-end (no clipped content on smaller phones or in landscape), including Recipe Detail's tab content and Home's stacked sections.
+- **Image loading/error states:** every `Image.network` shows a `loadingBuilder` (progress indicator) while fetching and the `errorBuilder` fallback described above — no flash of blank space or raw error icons.
+
 ## Testing
 
 - `models/recipe_test.dart` — `Recipe.fromJson`/`toJson` round trip, including nested ingredients/steps.
@@ -165,7 +177,7 @@ Pragmatic coverage over the logic most likely to have bugs (derived list logic, 
 ## Delivery
 
 - `analysis_options.yaml` using `package:lints/recommended.yaml`.
-- `README.md`: description, feature checklist mapped to the rubric, architecture overview, folder structure, how to run, and a screenshots section (filled in by the user after running the app, since screenshots need network access for the Unsplash images).
+- `README.md`: description, architecture overview, folder structure, how to run, a screenshots section (filled in by the user after running the app, since screenshots need network access for the Unsplash images), and a **requirements traceability table** mapping each NextFlutter rubric line item (screens, GoRouter/named routes, list+search/filter, detail+params, form+validation, theme, 8+ widgets, 3+ reusable widgets, responsive, data/UI separation) to the specific screen(s) and/or file(s) that satisfy it — so a reviewer can verify each point in seconds.
 - Git: this directory is its own repository, separate from the non-git `nexTflutter` parent. Creating the GitHub remote and pushing is a separate, explicit step the user confirms before it happens.
 
 ## Explicitly out of scope (YAGNI)
