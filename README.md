@@ -69,4 +69,9 @@ The tests cover model JSON parsing, repository loading, store derivations/mutati
 
 ## Screenshots
 
-Add screenshots before submission: Home, Discover, Recipe Detail, Add Recipe, and dark mode.
+<div align="center">
+  <img src="docs/screenshots/home.png" width="220" alt="Home Screen" />
+  <img src="docs/screenshots/discover.png" width="220" alt="Discover Screen" />
+  <img src="docs/screenshots/favorites.png" width="220" alt="Favorites Screen" />
+  <img src="docs/screenshots/profile_dark_mode.png" width="220" alt="Profile and Dark Mode" />
+</div>
