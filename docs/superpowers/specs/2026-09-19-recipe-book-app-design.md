@@ -1,8 +1,14 @@
-# Recipe Book — Multi-screen Flutter App (Design Spec)
+# Savorly — Multi-screen Flutter App (Design Spec)
 
-**Date:** 2026-09-19
+**Date:** 2026-09-19 (revised same day after receiving the Stitch UI design)
 **Author:** Yannick Ouedraogo (with Claude)
 **Context:** NextFlutter certification project "Flutter Project — Multi-screen app with navigation" (course: Navigation and Routing, 7/7 completed). Requires score ≥ 70/100. Submission is a public GitHub repo with README, screenshots, and launch instructions.
+
+## Revision note
+
+This supersedes the first version of this spec (also written 2026-09-19). The user designed the UI in Google Stitch and exported it to `stitch_savorly_flutter_recipe_app/` (sibling of this project's `docs/` folder). That export is the ground truth for screens, layout, colors, and typography — this revision replaces the originally invented "Recipe Book" concept (generic categories screen, deepOrange placeholder theme) with the actual **Savorly** design.
+
+Design source: `../../../stitch_savorly_flutter_recipe_app/` — `home_savorly/`, `discover_recipes_savorly/`, `recipe_details_savorly/`, `create_recipe_savorly/` (each with `code.html` + `screen.png`), and `warm_culinary_studio/DESIGN.md` (design tokens).
 
 ## Grading requirements (verbatim from course)
 
@@ -20,20 +26,32 @@
 
 ## Topic
 
-Recipe Book: browse recipes, filter by category, view details, mark favorites, add a new recipe via a form.
+**Savorly**: browse recipes, discover/filter/sort, view rich recipe detail (ingredients checklist, steps, servings scaling), mark favorites, publish a new recipe via a detailed form.
 
 ## Package / naming
 
-- Dart package name: `recipe_book`
-- App display title: "Recipe Book"
-- Project root: this directory (`flutter-project-multi-screen-app`), which becomes its own public GitHub repo, separate from the parent `nexTflutter` workspace (which is not a git repo).
+- Dart package name: `savorly`
+- App display title: "Savorly"
+- Project root: this directory (`flutter-project-multi-screen-app`), its own public GitHub repo, separate from the non-git `nexTflutter` parent workspace.
+
+## Design tokens (from `warm_culinary_studio/DESIGN.md`)
+
+The DESIGN.md file contains two color descriptions that disagree: a YAML front-matter token block, and a prose "Colors" section with different hex values. **The YAML front-matter is what the actual exported HTML/Tailwind config uses** (verified: `primary: #a93017` matches in both the YAML and every `code.html`'s embedded Tailwind config) — the prose section is a stale/inconsistent draft. This spec follows the YAML tokens as ground truth.
+
+- **Font:** Manrope (via the `google_fonts` package), weights 400/600/700/800, matching the display/headline/title/body/label scale in DESIGN.md.
+- **Light `ColorScheme`:** built directly from the YAML tokens — `primary #a93017`, `secondary #3d692e`, `tertiary #805200`, `surface #f9f9f7`, `error #ba1a1a`, plus their `on-*`/container variants, mapped 1:1 to Flutter's M3 `ColorScheme` fields.
+- **Dark `ColorScheme`:** DESIGN.md's prose dark-mode section doesn't reconcile with the YAML tokens and no dark HTML variant was exported, so the dark scheme is generated with `ColorScheme.fromSeed(seedColor: primary, brightness: Brightness.dark)` — Material 3's standard tonal derivation from the same brand seed color, keeping light/dark visually consistent without hand-guessing unverified hex values.
+- **Shape:** cards 16–20px radius, buttons/inputs 12–14px radius, chips fully pill-shaped — matches DESIGN.md's `rounded` scale.
+- **Spacing:** 4/8/12/16/24px scale (DESIGN.md's `space-xs` → `space-xl`).
+
+## Recipe photos
+
+The exported HTML hardcodes `lh3.googleusercontent.com` preview URLs from the Stitch generation session — these are ephemeral AI-preview links, not meant for redistribution in a shipped app. Per the user's choice, recipe photos in the Flutter app instead use **Unsplash Source** thematic URLs (e.g. `https://source.unsplash.com/featured/?pasta`), stored as the `imageUrl` field in `assets/data/recipes.json` and loaded via `Image.network`. This is a data field, not a widget-level hardcode, and needs network access to render (screenshots for the README should be taken with the device online).
 
 ## Architecture — flat layered structure under `lib/`
 
-Chosen over a feature-first layout because the grading rubric explicitly names a `widgets/` folder; a shallow, rubric-aligned structure is easier for a reviewer to scan quickly. This mirrors the layering style of the user's existing certified CLI project (`cliTASkmanager`), adapted to Flutter's conventional `screens/`/`widgets/` split.
-
 ```
-recipe_book/
+savorly/
 ├── assets/
 │   └── data/
 │       ├── recipes.json
@@ -41,121 +59,120 @@ recipe_book/
 ├── lib/
 │   ├── main.dart                     # app entry, providers, MaterialApp.router
 │   ├── theme/
-│   │   └── app_theme.dart            # ThemeData.light()/dark(), Material 3 seed color
+│   │   └── app_theme.dart            # light/dark ColorScheme, Manrope text theme, shapes
 │   ├── router/
-│   │   └── app_router.dart           # GoRouter config: routes, ShellRoute, redirect guard
+│   │   └── app_router.dart           # GoRouter: ShellRoute (4 tabs) + pushed detail/add routes
 │   ├── models/
-│   │   ├── recipe.dart               # Recipe (id, title, category, imageUrl, prepMinutes,
-│   │   │                             #   servings, difficulty, ingredients, steps)
-│   │   └── category.dart             # Category (id, name, icon)
+│   │   ├── recipe.dart               # Recipe, RecipeIngredient, RecipeStep
+│   │   └── category.dart             # Category (id, name, emoji)
 │   ├── data/
-│   │   └── recipe_repository.dart    # loads assets/data/*.json via rootBundle,
-│   │                                 #   exposes getAll/getById/search/byCategory/getCategories/add
+│   │   └── recipe_repository.dart    # loads assets/data/*.json via rootBundle
 │   ├── state/
-│   │   ├── favorites_controller.dart # ChangeNotifier: Set<String> favoriteIds, toggle, isFavorite
+│   │   ├── recipe_store.dart         # ChangeNotifier: recipes + favorites (in-memory, mutable)
 │   │   └── theme_controller.dart     # ChangeNotifier: ThemeMode, toggle
 │   ├── screens/
-│   │   ├── home_screen.dart          # list + search + category quick-filter
-│   │   ├── categories_screen.dart    # grid of categories
-│   │   ├── category_recipes_screen.dart # nested route: recipes filtered by category
-│   │   ├── recipe_detail_screen.dart # detail via :id param
-│   │   ├── favorites_screen.dart     # list of favorited recipes
-│   │   └── add_recipe_screen.dart    # form, 4 validated fields
+│   │   ├── home_screen.dart          # Stitch: home_savorly
+│   │   ├── discover_screen.dart      # Stitch: discover_recipes_savorly — search/filter/sort
+│   │   ├── favorites_screen.dart     # own design, reuses RecipeCard
+│   │   ├── profile_screen.dart       # own design — stats + theme toggle
+│   │   ├── recipe_detail_screen.dart # Stitch: recipe_details_savorly — :id param
+│   │   └── add_recipe_screen.dart    # Stitch: create_recipe_savorly (header bug fixed)
 │   └── widgets/
-│       ├── recipe_card.dart          # reusable — used in Home, CategoryRecipes, Favorites
-│       ├── category_card.dart        # reusable — used in Categories grid
-│       ├── search_filter_bar.dart    # reusable — used in Home
-│       └── adaptive_nav_scaffold.dart # reusable — shared shell, mobile/tablet nav switch
+│       ├── recipe_card.dart          # grid/vertical card — Discover grid, Favorites list
+│       ├── featured_recipe_card.dart # Home's large hero card
+│       ├── quick_recipe_tile.dart    # Home's horizontal "Quick & Easy" row tile
+│       ├── category_chip.dart        # selectable pill chip — Home + Discover
+│       └── section_header.dart       # icon + title + trailing action, reused across sections
 ├── test/
-│   ├── models/recipe_test.dart
-│   ├── data/recipe_repository_test.dart
-│   ├── state/favorites_controller_test.dart
-│   └── widgets/recipe_card_test.dart
 ├── analysis_options.yaml
 └── README.md
 ```
 
 ## Navigation (GoRouter)
 
-State management for navigation-independent app state uses no external package (per user's choice, consistent with the course sequence — Riverpod is taught in a later, not-yet-completed course).
+`ShellRoute` wraps an adaptive nav (mobile: `NavigationBar` bottom bar; tablet ≥600px: `NavigationRail`) with 4 destinations, matching every exported screen's bottom nav exactly:
 
-Route tree:
+- `/` → `HomeScreen`
+- `/discover` → `DiscoverScreen` — the required list+search+filter screen
+- `/favorites` → `FavoritesScreen`
+- `/profile` → `ProfileScreen`
 
-- `ShellRoute` — wraps the adaptive nav scaffold (BottomNavigationBar on mobile, NavigationRail on tablet), containing the three primary destinations:
-  - `/` → `HomeScreen` (list, search box, category filter chips)
-  - `/categories` → `CategoriesScreen` (grid of category cards)
-    - `/categories/:categoryId` (nested child route) → `CategoryRecipesScreen` (list filtered by category) — demonstrates nested routes + path parameters from the course
-  - `/favorites` → `FavoritesScreen`
-- Outside the shell (pushed full-screen from anywhere):
-  - `/recipe/:id` → `RecipeDetailScreen` — parameter passing via path param; includes a `redirect` guard: if `id` doesn't resolve to a known recipe, redirect to `/`
-  - `/add-recipe` → `AddRecipeScreen`
+Outside the shell (pushed full-screen, no bottom nav):
+- `/recipe/:id` → `RecipeDetailScreen` — path parameter, reachable from any recipe card on Home/Discover/Favorites; `redirect` guard sends unknown ids back to `/`
+- `/add-recipe` → `AddRecipeScreen` — reached via a FAB on `DiscoverScreen` (the design has no dedicated bottom-nav slot for it; it's a modal-style full-screen push, consistent with typical "create" flows)
 
-Deep linking is demonstrated primarily via Flutter web (typing `/recipe/<id>` directly into the browser address bar and reloading); GoRouter's URL-based routing supports this without extra platform configuration. Android/iOS platform-level deep link config (intent filters / universal links) is out of scope — not required by the rubric and not verifiable by a typical reviewer.
+Deep linking demonstrated via Flutter web (typing `/recipe/<id>` into the browser address bar). No native platform deep-link config (intent filters / universal links) — out of scope per the earlier spec's reasoning.
+
+### Note on the Stitch export
+
+`create_recipe_savorly/code.html` has an export artifact: its header reads "Profile" and its `<nav>` highlights the Profile tab, even though the screen body is clearly the add/publish-recipe form (confirmed by the folder name and the "Publish Recipe" button). This is treated as a labeling bug in the Stitch generation, not a real design intent — the implementation uses an "Add Recipe" app bar title and no bottom nav (full-screen push), per the design fix agreed with the user.
 
 ## Data layer
 
-- `assets/data/recipes.json`: array of recipe objects (id, title, category id, imageUrl, prepMinutes, servings, difficulty, ingredients: List<String>, steps: List<String>).
-- `assets/data/categories.json`: array of category objects (id, name, icon name).
-- `RecipeRepository` loads both files via `rootBundle.loadString` + `jsonDecode` at startup, and exposes synchronous in-memory query methods (`getAll`, `getById`, `search(query)`, `byCategory(categoryId)`, `getCategories`, `add(recipe)` for the form submission). No widget ever embeds recipe/category data directly — all screens read through the repository.
+- `assets/data/recipes.json`: array of recipe objects — `id, title, description, category, imageUrl, prepMinutes, cookMinutes, servings, difficulty (Easy/Medium/Hard), calories, rating, ratingCount, authorName, ingredients: [{name, quantity, unit}], steps: [{title, description, minutes}]`.
+- `assets/data/categories.json`: array of `{id, name, emoji}` — powers the category chips on Home/Discover (matches the 🥞🥗🍲🍰🥑🌱🍹 emoji chips in the design) without hardcoding them in a widget.
+- `RecipeRepository` loads both files via `rootBundle.loadString` + `jsonDecode` at startup; pure data access, no mutable state.
 
 ## State management
 
-- `FavoritesController extends ChangeNotifier`: holds `Set<String> favoriteIds`, exposes `toggle(id)` and `isFavorite(id)`.
-- `ThemeController extends ChangeNotifier`: holds `ThemeMode`, exposes `toggle()`.
-- Both exposed app-wide via `InheritedNotifier` subclasses with a static `of(context)` accessor (the "poor-man's provider" pattern) — no external state management package.
-- Favorites and recipes added via the form are in-memory only for the session; no disk persistence (out of scope for this rubric, avoids adding `shared_preferences` or similar as an unnecessary dependency).
-- Search/filter query text lives as local `StatefulWidget` state inside `HomeScreen` (no need for global state).
+- `RecipeStore extends ChangeNotifier` — seeded from `RecipeRepository` at startup; single source of truth for recipe data during the session:
+  - `List<Recipe> all` (base recipes + any added via the form)
+  - `Set<String> favoriteIds`
+  - Derived getters: `featured` (highest-rated recipe), `popular` (top-rated, for Home's carousel), `quickAndEasy` (`prepMinutes <= 30`, for Home's list), `search(query)`, `byCategory(categoryId)`
+  - Mutators: `toggleFavorite(id)`, `addRecipe(recipe)`
+  - Exposed app-wide via an `InheritedNotifier` with a static `of(context)` accessor — no external state package.
+- `ThemeController extends ChangeNotifier` — `ThemeMode`, `toggle()`; surfaced as a switch on `ProfileScreen`.
+- Ephemeral, screen-local state stays local (no global store): Discover's search text and active filter chip, Recipe Detail's servings stepper + ingredient-checked-off state, Add Recipe's in-progress dynamic ingredient/step rows and picked cover image.
 
-## Theming
+## Screens
 
-- Material 3, `ThemeData.light()` and `ThemeData.dark()` built from a single seed color (deepOrange, food-appropriate).
-- `MaterialApp.router.themeMode` driven by `ThemeController`.
-- Toggle exposed as a sun/moon `IconButton` in the shared shell's AppBar, reachable from Home/Categories/Favorites.
+1. **Home** (`/`) — greeting header, search bar with a filter shortcut button, horizontal scrollable category chips, a `FeaturedRecipeCard` (top-rated recipe), a horizontal `Popular Recipes` carousel of `RecipeCard`s, a vertical `Quick & Easy` list of `QuickRecipeTile`s (recipes ≤30 min).
+2. **Discover** (`/discover`) — the required list+search+filter screen: search field, filter-sheet trigger (`showModalBottomSheet` with a cook-time range and sort options), horizontal category filter chips, a sort indicator, a grid/list view toggle, and a 2-column (mobile) / 3–4-column (tablet) `GridView` of `RecipeCard`s.
+3. **Favorites** (`/favorites`) — own design: same `RecipeCard`/list styling, filtered to `RecipeStore.favoriteIds`; empty state when none.
+4. **Profile** (`/profile`) — own design: avatar placeholder, session stats (recipes added, favorites count — both derived from `RecipeStore`, not hardcoded), and the light/dark theme switch.
+5. **Recipe Detail** (`/recipe/:id`) — hero image with time/difficulty/calorie/rating badges, title + description, author attribution card with a (decorative, non-persisted) follow toggle, a 3-tab `TabBar` (Overview / Ingredients / Steps), a servings stepper that live-recalculates ingredient quantities (matches the design's `data-base` multiplier pattern), a checkable ingredient list, a numbered steps timeline, a "Chef's Secret" tip callout, and a sticky bottom bar with "Start Cooking Mode" + an audio-guide icon button — both show a `SnackBar` only (no real timer/audio implementation, out of scope).
+6. **Add Recipe** (`/add-recipe`) — cover photo picker (via `image_picker`, in-memory `File` preview, no persistence), title + description fields, prep/cook time fields, category dropdown (from `RecipeRepository.getCategories()`), a servings stepper, a difficulty segmented control, a dynamically add/remove-able ingredients list (name + quantity + unit per row, at least 1 required), a dynamically add/remove-able steps list (at least 1 required), and Cancel/Publish actions. Publish calls `RecipeStore.addRecipe(...)` and pops back to Discover.
 
-## Reusable widgets (4, in `widgets/`)
+## Reusable widgets (5, in `widgets/`)
 
-1. `RecipeCard` — `Card` + `Stack` (image + favorite-heart overlay) + text; used in Home, CategoryRecipes, Favorites.
-2. `CategoryCard` — `Card`/`InkWell` + `Icon` + label; used in Categories grid.
-3. `SearchFilterBar` — `TextField` + `Wrap` of `FilterChip`s; used in Home.
-4. `AdaptiveNavScaffold` — switches `BottomNavigationBar` (mobile) vs `NavigationRail` (tablet) based on width breakpoint; used by the `ShellRoute` builder.
+1. `RecipeCard` — vertical card (image, category badge, favorite toggle, rating, title, time, difficulty); used in Discover's grid and Favorites' list.
+2. `FeaturedRecipeCard` — Home's large hero card with gradient-scrim title overlay and a "View Recipe" CTA.
+3. `QuickRecipeTile` — Home's horizontal list tile (thumbnail + title + rating + ingredient count).
+4. `CategoryChip` — selectable pill chip with optional emoji; used on Home (browse) and Discover (filter).
+5. `SectionHeader` — icon + title (+ optional subtitle/trailing action); used across Home's sections and Discover/Favorites headers.
 
-Built-in widget variety across the app (comfortably clears the "8 different widgets" requirement): `ListView`, `GridView`, `Stack`, `Card`, `TextField`, `FilterChip`, `NavigationRail`, `BottomNavigationBar`, `Form`/`TextFormField`, `DropdownButtonFormField`, `Image`, `AlertDialog`, `CircularProgressIndicator` (initial JSON load).
+Built-in widget variety across the app (well past the 8-widget requirement): `ListView`, `GridView`, `Stack`, `Card`, `TextField`/`TextFormField`, `DropdownButtonFormField`, `FilterChip`/`ChoiceChip`, `NavigationBar`, `NavigationRail`, `TabBar`/`TabBarView`, `Checkbox`, `showModalBottomSheet`, `Image.network`/`Image.file`, `SnackBar`, `CircularProgressIndicator` (initial JSON load).
 
 ## Form — Add Recipe
 
-Fields (4, all validated):
-- Title — required, non-empty, min length 3
-- Category — required dropdown (populated from `RecipeRepository.getCategories()`, not hardcoded)
-- Prep time (minutes) — required, numeric, > 0
-- Servings — required, numeric, > 0
-
-On submit: builds a `Recipe`, calls `RecipeRepository.add(...)`, navigates back to `/` where the new recipe appears in the list — demonstrates a full read/write round trip without needing persistence.
+Validated fields: Title (required, min length 3), Description (required), Category (required dropdown, populated from data), Prep time (required, numeric, > 0). Plus structurally-validated dynamic lists: at least 1 ingredient row (name + quantity + unit) and at least 1 step row — comfortably clears the "at least 3 fields" requirement while matching the richer Stitch design. Cover photo, cook time, servings, and difficulty have sensible defaults and aren't required.
 
 ## Responsive strategy
 
-Single breakpoint at 600px logical width (checked via `MediaQuery`/`LayoutBuilder`):
-- `< 600`: `ListView` layouts, `BottomNavigationBar`.
-- `>= 600`: `GridView` layouts (2–3 columns) for Home/Categories/Favorites, `NavigationRail` instead of bottom nav.
+Single breakpoint at 600px logical width:
+- `< 600`: `NavigationBar` bottom bar; Discover grid at 2 columns; Home sections stay single-column/horizontal-scroll as designed.
+- `>= 600`: `NavigationRail` instead of bottom bar; Discover grid at 3–4 columns; Recipe Detail could optionally widen its content column (not required, simple centering with a max width is sufficient).
 
 ## Testing
 
-Mirrors the testing habit from the user's certified CLI project:
-- `models/recipe_test.dart` — `Recipe.fromJson`/`toJson` round trip.
-- `data/recipe_repository_test.dart` — search and category-filter logic against fixture JSON.
-- `state/favorites_controller_test.dart` — toggle/isFavorite behavior and notifyListeners.
-- `widgets/recipe_card_test.dart` — widget test: renders title/image, favorite icon reflects state.
+- `models/recipe_test.dart` — `Recipe.fromJson`/`toJson` round trip, including nested ingredients/steps.
+- `data/recipe_repository_test.dart` — loading and parsing fixture JSON.
+- `state/recipe_store_test.dart` — `toggleFavorite`, `addRecipe`, and the `featured`/`popular`/`quickAndEasy`/`search`/`byCategory` derived getters.
+- `widgets/recipe_card_test.dart` — widget test: renders title/image/badge, favorite icon reflects store state.
 
-Not aiming for exhaustive coverage — pragmatic tests over the logic most likely to have bugs (parsing, filtering, favorite toggling), consistent with the scope of a certification project.
+Pragmatic coverage over the logic most likely to have bugs (derived list logic, favorite toggling, form validation) — not exhaustive, consistent with certification-project scope.
 
 ## Delivery
 
-- `analysis_options.yaml` using `package:lints/recommended.yaml` (same convention as `cliTASkmanager`).
-- `README.md`: description, feature checklist mapped to the rubric, architecture overview, folder structure, how to run (`flutter pub get && flutter run`), and a placeholder section for screenshots (to be filled in by the user after running the app, since screenshots require an actual running instance).
-- Git: this directory is initialized as its own repository (separate from the non-git `nexTflutter` parent workspace) so it can be pushed to a dedicated public GitHub repo for submission. Creating the GitHub remote and pushing is a separate, explicit step the user confirms before it happens — not assumed as part of this design.
+- `analysis_options.yaml` using `package:lints/recommended.yaml`.
+- `README.md`: description, feature checklist mapped to the rubric, architecture overview, folder structure, how to run, and a screenshots section (filled in by the user after running the app, since screenshots need network access for the Unsplash images).
+- Git: this directory is its own repository, separate from the non-git `nexTflutter` parent. Creating the GitHub remote and pushing is a separate, explicit step the user confirms before it happens.
 
 ## Explicitly out of scope (YAGNI)
 
-- External state management packages (Provider/Riverpod/Bloc) — not yet covered by the user's course sequence.
-- Remote API / network calls — next course, not this one.
-- Disk persistence of favorites/added recipes — not required by the rubric.
-- Platform-level deep link configuration (Android intent filters, iOS universal links) — not verifiable by a typical reviewer and not required by the rubric; web-based deep linking is sufficient to demonstrate the concept.
+- External state management packages — not yet covered by the user's course sequence.
+- Real network/API calls for recipe data (only `Image.network` for photos, which is a basic widget, not an API integration) — next course, not this one.
+- Disk persistence of favorites/added recipes/theme choice — not required by the rubric.
+- Platform-level deep link configuration — not required, not verifiable by a typical reviewer.
+- Real "Cooking Mode" timer/audio-guide functionality — `SnackBar` feedback only, per user's choice.
+- Persisting the Add Recipe cover photo beyond the current session.
