@@ -4,9 +4,11 @@ import '../models/category.dart';
 import '../models/recipe.dart';
 
 class RecipeStore extends ChangeNotifier {
-  RecipeStore({required List<Recipe> initialRecipes, required List<Category> categories})
-      : _recipes = List.of(initialRecipes),
-        _categories = List.unmodifiable(categories);
+  RecipeStore({
+    required List<Recipe> initialRecipes,
+    required List<Category> categories,
+  }) : _recipes = List.of(initialRecipes),
+       _categories = List.unmodifiable(categories);
 
   final List<Recipe> _recipes;
   final List<Category> _categories;
@@ -18,12 +20,14 @@ class RecipeStore extends ChangeNotifier {
 
   Recipe? get featured {
     if (_recipes.isEmpty) return null;
-    final sorted = List<Recipe>.of(_recipes)..sort((a, b) => b.rating.compareTo(a.rating));
+    final sorted = List<Recipe>.of(_recipes)
+      ..sort((a, b) => b.rating.compareTo(a.rating));
     return sorted.first;
   }
 
   List<Recipe> get popular {
-    final sorted = List<Recipe>.of(_recipes)..sort((a, b) => b.rating.compareTo(a.rating));
+    final sorted = List<Recipe>.of(_recipes)
+      ..sort((a, b) => b.rating.compareTo(a.rating));
     return sorted.take(6).toList();
   }
 
@@ -33,7 +37,8 @@ class RecipeStore extends ChangeNotifier {
     return quick;
   }
 
-  List<Recipe> get favorites => _recipes.where((r) => _favoriteIds.contains(r.id)).toList();
+  List<Recipe> get favorites =>
+      _recipes.where((r) => _favoriteIds.contains(r.id)).toList();
 
   Recipe? byId(String id) {
     for (final recipe in _recipes) {
@@ -71,10 +76,15 @@ class RecipeStore extends ChangeNotifier {
 }
 
 class RecipeStoreScope extends InheritedNotifier<RecipeStore> {
-  const RecipeStoreScope({super.key, required RecipeStore store, required super.child}) : super(notifier: store);
+  const RecipeStoreScope({
+    super.key,
+    required RecipeStore store,
+    required super.child,
+  }) : super(notifier: store);
 
   static RecipeStore of(BuildContext context) {
-    final scope = context.dependOnInheritedWidgetOfExactType<RecipeStoreScope>();
+    final scope = context
+        .dependOnInheritedWidgetOfExactType<RecipeStoreScope>();
     assert(scope != null, 'No RecipeStoreScope found in context');
     return scope!.notifier!;
   }

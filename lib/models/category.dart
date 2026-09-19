@@ -6,8 +6,8 @@ class Category {
   final String emoji;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        emoji: json['emoji'] as String,
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    emoji: json['emoji'] as String,
+  );
 }

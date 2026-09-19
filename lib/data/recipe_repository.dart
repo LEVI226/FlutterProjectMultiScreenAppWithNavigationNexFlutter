@@ -15,6 +15,8 @@ class RecipeRepository {
   Future<List<Category>> loadCategories() async {
     final raw = await rootBundle.loadString('assets/data/categories.json');
     final list = jsonDecode(raw) as List;
-    return list.map((e) => Category.fromJson(e as Map<String, dynamic>)).toList();
+    return list
+        .map((e) => Category.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }

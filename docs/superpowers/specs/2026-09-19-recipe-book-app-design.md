@@ -1,7 +1,7 @@
 # Savorly — Multi-screen Flutter App (Design Spec)
 
 **Date:** 2026-09-19 (revised same day after receiving the Stitch UI design)
-**Author:** Yannick Ouedraogo (with Claude)
+**Author:** Yannick Ouedraogo
 **Context:** NextFlutter certification project "Flutter Project — Multi-screen app with navigation" (course: Navigation and Routing, 7/7 completed). Requires score ≥ 70/100. Submission is a public GitHub repo with README, screenshots, and launch instructions.
 
 ## Revision note

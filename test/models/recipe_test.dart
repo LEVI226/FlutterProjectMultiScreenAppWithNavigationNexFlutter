@@ -15,7 +15,11 @@ void main() {
 
   group('RecipeStep', () {
     test('fromJson/toJson round trip', () {
-      final json = {'title': 'Boil Pasta', 'description': 'Cook until al dente.', 'minutes': 9};
+      final json = {
+        'title': 'Boil Pasta',
+        'description': 'Cook until al dente.',
+        'minutes': 9,
+      };
       final step = RecipeStep.fromJson(json);
       expect(step.title, 'Boil Pasta');
       expect(step.minutes, 9);
@@ -29,7 +33,8 @@ void main() {
       'title': 'Creamy Garlic Pasta',
       'description': 'A silky Italian comfort dish.',
       'category': 'Dinner',
-      'imageUrl': 'https://images.unsplash.com/photo-1600803907087-f56d462fd26b',
+      'imageUrl':
+          'https://images.unsplash.com/photo-1600803907087-f56d462fd26b',
       'prepMinutes': 25,
       'cookMinutes': 15,
       'servings': 2,
@@ -42,7 +47,11 @@ void main() {
         {'name': 'Tagliatelle', 'quantity': 200.0, 'unit': 'g'},
       ],
       'steps': [
-        {'title': 'Boil Pasta', 'description': 'Cook until al dente.', 'minutes': 9},
+        {
+          'title': 'Boil Pasta',
+          'description': 'Cook until al dente.',
+          'minutes': 9,
+        },
       ],
     };
 

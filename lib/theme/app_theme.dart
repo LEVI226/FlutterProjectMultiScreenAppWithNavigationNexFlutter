@@ -11,21 +11,25 @@ class AppTheme {
   static const error = Color(0xFFBA1A1A);
 
   static ThemeData light() {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: primary,
-      brightness: Brightness.light,
-    ).copyWith(
-      primary: primary,
-      secondary: secondary,
-      tertiary: tertiary,
-      surface: surface,
-      error: error,
-    );
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: primary,
+          brightness: Brightness.light,
+        ).copyWith(
+          primary: primary,
+          secondary: secondary,
+          tertiary: tertiary,
+          surface: surface,
+          error: error,
+        );
     return _themeFrom(colorScheme);
   }
 
   static ThemeData dark() {
-    final colorScheme = ColorScheme.fromSeed(seedColor: primary, brightness: Brightness.dark);
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: primary,
+      brightness: Brightness.dark,
+    );
     return _themeFrom(colorScheme);
   }
 
@@ -54,7 +58,9 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         ),
       ),

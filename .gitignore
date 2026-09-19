@@ -1,1 +1,11 @@
 .worktrees/
+
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.idea/
+*.iml
+build/
+android/.gradle/
+android/.kotlin/
+android/local.properties

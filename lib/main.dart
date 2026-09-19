@@ -11,14 +11,20 @@ Future<void> main() async {
   final repository = RecipeRepository();
   final recipes = await repository.loadRecipes();
   final categories = await repository.loadCategories();
-  runApp(SavorlyApp(
-    store: RecipeStore(initialRecipes: recipes, categories: categories),
-    themeController: ThemeController(),
-  ));
+  runApp(
+    SavorlyApp(
+      store: RecipeStore(initialRecipes: recipes, categories: categories),
+      themeController: ThemeController(),
+    ),
+  );
 }
 
 class SavorlyApp extends StatefulWidget {
-  const SavorlyApp({super.key, required this.store, required this.themeController});
+  const SavorlyApp({
+    super.key,
+    required this.store,
+    required this.themeController,
+  });
 
   final RecipeStore store;
   final ThemeController themeController;

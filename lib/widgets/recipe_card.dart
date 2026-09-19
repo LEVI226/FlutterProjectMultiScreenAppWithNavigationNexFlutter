@@ -30,62 +30,89 @@ class RecipeCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-            AspectRatio(
-              aspectRatio: 4 / 3,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.network(
-                    recipe.imageUrl,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-                      return ColoredBox(
+              AspectRatio(
+                aspectRatio: 4 / 3,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.network(
+                      recipe.imageUrl,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+                        return ColoredBox(
+                          color: colorScheme.surfaceContainerHigh,
+                          child: const Center(
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) => ColoredBox(
                         color: colorScheme.surfaceContainerHigh,
-                        child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) => ColoredBox(
-                      color: colorScheme.surfaceContainerHigh,
-                      child: Icon(Icons.restaurant, color: colorScheme.onSurfaceVariant, size: 32),
+                        child: Icon(
+                          Icons.restaurant,
+                          color: colorScheme.onSurfaceVariant,
+                          size: 32,
+                        ),
+                      ),
                     ),
-                  ),
-                  Positioned(top: 8, left: 8, child: _Badge(text: recipe.category)),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: _FavoriteButton(isFavorite: isFavorite, onTap: onFavoriteToggle),
-                  ),
-                ],
+                    Positioned(
+                      top: 8,
+                      left: 8,
+                      child: _Badge(text: recipe.category),
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: _FavoriteButton(
+                        isFavorite: isFavorite,
+                        onTap: onFavoriteToggle,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    recipe.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      Icon(Icons.schedule, size: 14, color: colorScheme.onSurfaceVariant),
-                      const SizedBox(width: 4),
-                      Text('${recipe.prepMinutes} min', style: textTheme.labelSmall),
-                      const Spacer(),
-                      Text(recipe.difficulty, style: textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w700)),
-                    ],
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      recipe.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.schedule,
+                          size: 14,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${recipe.prepMinutes} min',
+                          style: textTheme.labelSmall,
+                        ),
+                        const Spacer(),
+                        Text(
+                          recipe.difficulty,
+                          style: textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -122,11 +149,16 @@ class _FavoriteButton extends StatelessWidget {
       child: Container(
         width: 32,
         height: 32,
-        decoration: BoxDecoration(color: colorScheme.surface.withValues(alpha: 0.9), shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          color: colorScheme.surface.withValues(alpha: 0.9),
+          shape: BoxShape.circle,
+        ),
         child: Icon(
           isFavorite ? Icons.favorite : Icons.favorite_border,
           size: 18,
-          color: isFavorite ? colorScheme.primary : colorScheme.onSurfaceVariant,
+          color: isFavorite
+              ? colorScheme.primary
+              : colorScheme.onSurfaceVariant,
         ),
       ),
     );

@@ -75,28 +75,21 @@ class FeaturedRecipeCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Row(
+              child: Wrap(
+                spacing: 12,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Icon(Icons.star, size: 16, color: colorScheme.tertiary),
-                  const SizedBox(width: 4),
-                  Text(
-                    '${recipe.rating}',
-                    style: textTheme.labelMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                  _MetaPill(
+                    icon: Icons.star,
+                    text: '${recipe.rating}',
+                    iconColor: colorScheme.tertiary,
                   ),
-                  const SizedBox(width: 12),
-                  Icon(
-                    Icons.schedule,
-                    size: 16,
-                    color: colorScheme.onSurfaceVariant,
+                  _MetaPill(
+                    icon: Icons.schedule,
+                    text: '${recipe.prepMinutes} min',
+                    iconColor: colorScheme.onSurfaceVariant,
                   ),
-                  const SizedBox(width: 4),
-                  Text(
-                    '${recipe.prepMinutes} min',
-                    style: textTheme.labelMedium,
-                  ),
-                  const Spacer(),
                   FilledButton(
                     onPressed: onTap,
                     child: const Text('View Recipe'),
@@ -107,6 +100,34 @@ class FeaturedRecipeCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MetaPill extends StatelessWidget {
+  const _MetaPill({
+    required this.icon,
+    required this.text,
+    required this.iconColor,
+  });
+
+  final IconData icon;
+  final String text;
+  final Color iconColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 16, color: iconColor),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: Theme.of(context).textTheme.labelMedium
+              ?.copyWith(fontWeight: FontWeight.w700),
+        ),
+      ],
     );
   }
 }

@@ -20,7 +20,12 @@ class _NavDestination {
 const _destinations = [
   _NavDestination('/', Icons.home_outlined, Icons.home, 'Home'),
   _NavDestination('/discover', Icons.search_outlined, Icons.search, 'Discover'),
-  _NavDestination('/favorites', Icons.favorite_border, Icons.favorite, 'Favorites'),
+  _NavDestination(
+    '/favorites',
+    Icons.favorite_border,
+    Icons.favorite,
+    'Favorites',
+  ),
   _NavDestination('/profile', Icons.person_outline, Icons.person, 'Profile'),
 ];
 
@@ -53,7 +58,11 @@ class AppShell extends StatelessWidget {
                 labelType: NavigationRailLabelType.all,
                 destinations: [
                   for (final d in _destinations)
-                    NavigationRailDestination(icon: Icon(d.icon), selectedIcon: Icon(d.selectedIcon), label: Text(d.label)),
+                    NavigationRailDestination(
+                      icon: Icon(d.icon),
+                      selectedIcon: Icon(d.selectedIcon),
+                      label: Text(d.label),
+                    ),
                 ],
               ),
               const VerticalDivider(width: 1),
@@ -70,7 +79,12 @@ class AppShell extends StatelessWidget {
         selectedIndex: currentIndex,
         onDestinationSelected: onSelect,
         destinations: [
-          for (final d in _destinations) NavigationDestination(icon: Icon(d.icon), selectedIcon: Icon(d.selectedIcon), label: d.label),
+          for (final d in _destinations)
+            NavigationDestination(
+              icon: Icon(d.icon),
+              selectedIcon: Icon(d.selectedIcon),
+              label: d.label,
+            ),
         ],
       ),
     );
@@ -91,16 +105,33 @@ GoRouter buildRouter(RecipeStore store) {
       ShellRoute(
         builder: (context, state, child) => AppShell(child: child),
         routes: [
-          GoRoute(path: '/', name: 'home', builder: (context, state) => const HomeScreen()),
-          GoRoute(path: '/discover', name: 'discover', builder: (context, state) => const DiscoverScreen()),
-          GoRoute(path: '/favorites', name: 'favorites', builder: (context, state) => const FavoritesScreen()),
-          GoRoute(path: '/profile', name: 'profile', builder: (context, state) => const ProfileScreen()),
+          GoRoute(
+            path: '/',
+            name: 'home',
+            builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: '/discover',
+            name: 'discover',
+            builder: (context, state) => const DiscoverScreen(),
+          ),
+          GoRoute(
+            path: '/favorites',
+            name: 'favorites',
+            builder: (context, state) => const FavoritesScreen(),
+          ),
+          GoRoute(
+            path: '/profile',
+            name: 'profile',
+            builder: (context, state) => const ProfileScreen(),
+          ),
         ],
       ),
       GoRoute(
         path: '/recipe/:id',
         name: 'recipe-detail',
-        builder: (context, state) => RecipeDetailScreen(recipeId: state.pathParameters['id']!),
+        builder: (context, state) =>
+            RecipeDetailScreen(recipeId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: '/add-recipe',

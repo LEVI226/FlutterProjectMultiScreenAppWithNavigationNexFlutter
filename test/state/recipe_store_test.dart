@@ -3,7 +3,12 @@ import 'package:savorly/models/category.dart';
 import 'package:savorly/models/recipe.dart';
 import 'package:savorly/state/recipe_store.dart';
 
-Recipe _recipe(String id, {String category = 'Dinner', int prepMinutes = 20, double rating = 4.0}) {
+Recipe _recipe(
+  String id, {
+  String category = 'Dinner',
+  int prepMinutes = 20,
+  double rating = 4.0,
+}) {
   return Recipe(
     id: id,
     title: 'Recipe $id',
@@ -47,7 +52,10 @@ void main() {
   });
 
   test('byCategory filters by category id', () {
-    expect(store.byCategory('Dinner').map((r) => r.id), containsAll(['a', 'c']));
+    expect(
+      store.byCategory('Dinner').map((r) => r.id),
+      containsAll(['a', 'c']),
+    );
     expect(store.byCategory('Dinner'), hasLength(2));
   });
 
