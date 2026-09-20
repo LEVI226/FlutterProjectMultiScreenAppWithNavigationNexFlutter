@@ -47,23 +47,26 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Starts on Home.
-      expect(find.text('Home'), findsWidgets);
+      // Starts on Home. The NavigationBar always renders all four tab
+      // labels regardless of which tab is active (alwaysShow behavior), so
+      // asserting on those labels alone can't prove navigation happened —
+      // assert on content unique to each screen's own body instead.
+      expect(find.text('What would you like to cook?'), findsOneWidget);
 
       // Discover.
       await tester.tap(find.widgetWithText(NavigationDestination, 'Discover'));
       await tester.pumpAndSettle();
-      expect(find.text('Discover'), findsWidgets);
+      expect(find.text('2 recipes found'), findsOneWidget);
 
       // Favorites.
       await tester.tap(find.widgetWithText(NavigationDestination, 'Favorites'));
       await tester.pumpAndSettle();
-      expect(find.text('Favorites'), findsWidgets);
+      expect(find.text('0 saved recipes'), findsOneWidget);
 
       // Profile.
       await tester.tap(find.widgetWithText(NavigationDestination, 'Profile'));
       await tester.pumpAndSettle();
-      expect(find.text('Profile'), findsWidgets);
+      expect(find.text('Yannick Ouedraogo'), findsOneWidget);
     },
   );
 }
