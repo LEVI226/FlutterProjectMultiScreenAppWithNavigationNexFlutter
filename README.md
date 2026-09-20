@@ -72,6 +72,8 @@ The tests cover model JSON parsing, repository loading, store derivations/mutati
 <div align="center">
   <img src="docs/screenshots/home.png" width="220" alt="Home Screen" />
   <img src="docs/screenshots/discover.png" width="220" alt="Discover Screen" />
+  <img src="docs/screenshots/recipe_detail.png" width="220" alt="Recipe Detail Screen, showing parameter-based navigation and the ingredients checklist" />
+  <img src="docs/screenshots/add_recipe.png" width="220" alt="Add Recipe form with validation" />
   <img src="docs/screenshots/favorites.png" width="220" alt="Favorites Screen" />
   <img src="docs/screenshots/profile_dark_mode.png" width="220" alt="Profile and Dark Mode" />
 </div>
