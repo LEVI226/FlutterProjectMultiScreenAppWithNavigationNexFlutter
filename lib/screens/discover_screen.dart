@@ -227,7 +227,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               return RecipeCard(
                 recipe: recipe,
                 isFavorite: store.isFavorite(recipe.id),
-                onTap: () => context.push('/recipe/${recipe.id}'),
+                onTap: () => context.pushNamed(
+                  'recipe-detail',
+                  pathParameters: {'id': recipe.id},
+                ),
                 onFavoriteToggle: () => store.toggleFavorite(recipe.id),
               );
             },
@@ -235,7 +238,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/add-recipe'),
+        onPressed: () => context.pushNamed('add-recipe'),
         icon: const Icon(Icons.add),
         label: const Text('Recipe'),
       ),

@@ -45,7 +45,7 @@ class FavoritesScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 TextButton(
-                  onPressed: () => context.go('/discover'),
+                  onPressed: () => context.goNamed('discover'),
                   child: const Text('Find recipes'),
                 ),
               ],
@@ -67,7 +67,10 @@ class FavoritesScreen extends StatelessWidget {
               return RecipeCard(
                 recipe: recipe,
                 isFavorite: true,
-                onTap: () => context.push('/recipe/${recipe.id}'),
+                onTap: () => context.pushNamed(
+                  'recipe-detail',
+                  pathParameters: {'id': recipe.id},
+                ),
                 onFavoriteToggle: () => store.toggleFavorite(recipe.id),
               );
             },

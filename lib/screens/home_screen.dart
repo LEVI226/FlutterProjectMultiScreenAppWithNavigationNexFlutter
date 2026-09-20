@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             IconButton.filledTonal(
-              onPressed: () => context.go('/discover'),
+              onPressed: () => context.goNamed('discover'),
               icon: const Icon(Icons.tune),
               tooltip: 'Discover recipes',
             ),
@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
         const SizedBox(height: 16),
         TextField(
           readOnly: true,
-          onTap: () => context.go('/discover'),
+          onTap: () => context.goNamed('discover'),
           decoration: const InputDecoration(
             prefixIcon: Icon(Icons.search),
             hintText: 'Search recipes',
@@ -73,7 +73,7 @@ class HomeScreen extends StatelessWidget {
                 label: category.name,
                 emoji: category.emoji,
                 selected: false,
-                onTap: () => context.go('/discover'),
+                onTap: () => context.goNamed('discover'),
               );
             },
           ),
@@ -87,14 +87,17 @@ class HomeScreen extends StatelessWidget {
         if (featured != null)
           FeaturedRecipeCard(
             recipe: featured,
-            onTap: () => context.push('/recipe/${featured.id}'),
+            onTap: () => context.pushNamed(
+              'recipe-detail',
+              pathParameters: {'id': featured.id},
+            ),
           ),
         const SizedBox(height: 24),
         SectionHeader(
           icon: Icons.star_border,
           title: 'Popular Recipes',
           trailing: TextButton(
-            onPressed: () => context.go('/discover'),
+            onPressed: () => context.goNamed('discover'),
             child: const Text('See all'),
           ),
         ),
@@ -112,7 +115,10 @@ class HomeScreen extends StatelessWidget {
                 child: RecipeCard(
                   recipe: recipe,
                   isFavorite: store.isFavorite(recipe.id),
-                  onTap: () => context.push('/recipe/${recipe.id}'),
+                  onTap: () => context.pushNamed(
+                    'recipe-detail',
+                    pathParameters: {'id': recipe.id},
+                  ),
                   onFavoriteToggle: () => store.toggleFavorite(recipe.id),
                 ),
               );
@@ -129,7 +135,10 @@ class HomeScreen extends StatelessWidget {
         for (final recipe in quick)
           QuickRecipeTile(
             recipe: recipe,
-            onTap: () => context.push('/recipe/${recipe.id}'),
+            onTap: () => context.pushNamed(
+              'recipe-detail',
+              pathParameters: {'id': recipe.id},
+            ),
           ),
       ],
     );

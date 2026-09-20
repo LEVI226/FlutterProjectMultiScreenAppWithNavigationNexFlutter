@@ -10,23 +10,43 @@ import '../screens/recipe_detail_screen.dart';
 import '../state/recipe_store.dart';
 
 class _NavDestination {
-  const _NavDestination(this.path, this.icon, this.selectedIcon, this.label);
+  const _NavDestination(
+    this.path,
+    this.routeName,
+    this.icon,
+    this.selectedIcon,
+    this.label,
+  );
   final String path;
+  final String routeName;
   final IconData icon;
   final IconData selectedIcon;
   final String label;
 }
 
 const _destinations = [
-  _NavDestination('/', Icons.home_outlined, Icons.home, 'Home'),
-  _NavDestination('/discover', Icons.search_outlined, Icons.search, 'Discover'),
+  _NavDestination('/', 'home', Icons.home_outlined, Icons.home, 'Home'),
+  _NavDestination(
+    '/discover',
+    'discover',
+    Icons.search_outlined,
+    Icons.search,
+    'Discover',
+  ),
   _NavDestination(
     '/favorites',
+    'favorites',
     Icons.favorite_border,
     Icons.favorite,
     'Favorites',
   ),
-  _NavDestination('/profile', Icons.person_outline, Icons.person, 'Profile'),
+  _NavDestination(
+    '/profile',
+    'profile',
+    Icons.person_outline,
+    Icons.person,
+    'Profile',
+  ),
 ];
 
 class AppShell extends StatelessWidget {
@@ -45,7 +65,8 @@ class AppShell extends StatelessWidget {
     final currentIndex = _indexForLocation(location);
     final isTablet = MediaQuery.sizeOf(context).width >= 600;
 
-    void onSelect(int index) => context.go(_destinations[index].path);
+    void onSelect(int index) =>
+        context.goNamed(_destinations[index].routeName);
 
     if (isTablet) {
       return Scaffold(
