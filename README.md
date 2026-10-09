@@ -1,6 +1,6 @@
 # Savorly
 
-![CI](https://github.com/LEVI226/FlutterProjectMultiScreenAppWithNavigationNexFlutter/actions/workflows/ci.yml/badge.svg)
+[![CI](https://github.com/LEVI226/FlutterProjectMultiScreenAppWithNavigationNexFlutter/actions/workflows/ci.yml/badge.svg)](https://github.com/LEVI226/FlutterProjectMultiScreenAppWithNavigationNexFlutter/actions/workflows/ci.yml)
 
 A multi-screen Flutter recipe app, originally built for the NextFlutter "Multi-screen app with navigation" certification (99/100), since upgraded to a production-ready standard for the "Tested and optimized production-ready app" certification: a full test suite across unit/widget/integration levels, FR/EN internationalization, accessibility labels, image caching, and CI/CD. See [CHANGELOG.md](CHANGELOG.md) for the version history.
 
@@ -64,10 +64,10 @@ Every icon-only interactive control (the favorite-toggle button, ingredient/step
 | 10+ unit tests | 18 across `test/data/`, `test/models/`, `test/state/` |
 | 5+ widget tests | 11 across `test/widgets/`, `test/screens/`, `test/app_navigation_test.dart` |
 | 2+ integration tests | `integration_test/favorite_flow_test.dart`, `integration_test/add_recipe_flow_test.dart` |
-| Performance: optimized/lazy images | `cached_network_image` on every recipe photo; `GridView.builder`/`ListView.builder`/`ListView.separated` throughout (lazy by construction) |
+| Performance: optimized/lazy images | `cached_network_image` caches and fades in every recipe photo; the Home screen's horizontal recipe carousels and the Recipe Detail steps list use `ListView.separated`'s lazy item building. Discover/Favorites' grids use `GridView.builder` nested in a scrollable `ListView` (not independently lazy, since the whole screen scrolls as one unit) — acceptable at this app's data scale (a few dozen recipes), but not claimed as independently lazy |
 | Accessibility: semantic labels | See "Accessibility" above |
 | Internationalization: FR + EN | See "Internationalization" above |
-| CI/CD (GitHub Actions) | `.github/workflows/ci.yml` — `dart format`, `flutter analyze`, `flutter test` on every push/PR |
+| CI/CD (GitHub Actions) | `.github/workflows/ci.yml` — `dart format`, `flutter analyze`, `flutter test` on every push/PR to `main` |
 | Clean static analysis | `flutter analyze` — 0 issues |
 | Professional README | This file |
 | CHANGELOG.md, 3+ versions | [CHANGELOG.md](CHANGELOG.md) — `1.0.0`, `1.1.0`, `1.2.0` |
@@ -108,7 +108,7 @@ flutter drive \
 
 ## APK
 
-A debug build is available: build it locally with `flutter build apk --debug` (produces `build/app/outputs/flutter-apk/app-debug.apk`). Once the user has pushed this repo and created a GitHub Release, the built APK can be attached there and linked from this section — not done as part of this plan, since it depends on a push the assistant never performs.
+Build a debug APK locally with `flutter build apk --debug` (output: `build/app/outputs/flutter-apk/app-debug.apk`). Release APKs can be attached to GitHub Releases.
 
 No iOS/IPA build — this project was developed without access to a Mac/Xcode toolchain.
 

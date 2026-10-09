@@ -31,6 +31,10 @@
   "discoverSortTop": "Top",
   "discoverSortFast": "Rapide",
   "discoverSortNew": "Nouveau",
+  "discoverSortChipLabel": "Tri : {mode}",
+  "@discoverSortChipLabel": {
+    "placeholders": { "mode": { "type": "String" } }
+  },
   "discoverGridDensityTooltip": "Densité de la grille",
   "discoverAddRecipeFab": "Recette",
   "favoritesTitle": "Favoris",

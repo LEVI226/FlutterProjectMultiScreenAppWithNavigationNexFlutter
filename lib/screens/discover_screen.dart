@@ -11,6 +11,17 @@ import 'package:savorly/l10n/app_localizations.dart';
 
 enum _SortMode { rating, quickest, newest }
 
+String _sortModeLabel(AppLocalizations l10n, _SortMode mode) {
+  switch (mode) {
+    case _SortMode.rating:
+      return l10n.discoverSortTop;
+    case _SortMode.quickest:
+      return l10n.discoverSortFast;
+    case _SortMode.newest:
+      return l10n.discoverSortNew;
+  }
+}
+
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
 
@@ -208,7 +219,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             runSpacing: 8,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Chip(label: Text('Sort: ${_sortMode.name}')),
+              Chip(
+                label: Text(
+                  l10n.discoverSortChipLabel(_sortModeLabel(l10n, _sortMode)),
+                ),
+              ),
               IconButton(
                 onPressed: () => setState(() => _denseGrid = !_denseGrid),
                 icon: Icon(
