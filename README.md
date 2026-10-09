@@ -50,7 +50,7 @@ Recipe and category data live in `assets/data/*.json`, not inside widgets — `R
 
 ## Internationalization
 
-Full French and English support via `flutter_localizations`/`intl`. The language defaults to the device's locale on first launch (falling back to English if the device locale isn't French or English) and can be overridden per-session from the Profile screen's language switcher. Every user-facing string across all 6 screens is sourced from `lib/l10n/app_en.arb`/`app_fr.arb`.
+Full French and English support via `flutter_localizations`/`intl`. The language defaults to the device's locale on first launch (falling back to English if the device locale isn't French or English) and can be overridden per-session from the Profile screen's language switcher. All screen titles, navigation labels, buttons, form fields, validation messages, and tooltips are sourced from `lib/l10n/app_en.arb`/`app_fr.arb`. A handful of minor strings (e.g. a few default/fallback values and one ingredient-count label) remain English-only — not required by the certification's "FR + EN support minimum" bar, but noted here for transparency.
 
 ## Accessibility
 
