@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -11,22 +8,22 @@ import 'package:savorly/models/recipe.dart';
 import 'package:savorly/state/recipe_store.dart';
 import 'package:savorly/state/theme_controller.dart';
 
-// HomeScreen renders recipe images via CachedNetworkImage. The default
-// CacheManager stores cache metadata in a JSON file resolved through
-// path_provider, which has no platform-channel implementation in the widget
-// test environment and never resolves there, so pumpAndSettle() times out
-// waiting for the placeholder's spinner to stop. Swapping in a cache manager
-// backed by [NonStoringObjectProvider] skips that file-backed metadata store
-// entirely, letting the (mocked, always-400) network request fail fast and
-// the errorWidget build immediately.
-class _TestCacheManager extends CacheManager {
-  static final _instance = _TestCacheManager._();
-
-  factory _TestCacheManager() => _instance;
-
-  _TestCacheManager._()
-    : super(Config('testImageCache', repo: NonStoringObjectProvider()));
-}
+// HomeScreen renders recipe images (via RecipeCard, FeaturedRecipeCard, and
+// QuickRecipeTile) through CachedNetworkImage. The default CacheManager
+// stores cache metadata via a JsonCacheInfoRepository, which does real file
+// I/O. Swapping in a cache manager backed by [NonStoringObjectProvider]
+// skips that file-backed metadata store entirely (retrieveCacheData just
+// returns null, nothing touches the filesystem), so the (mocked by
+// flutter_test, always-400) network request fails fast and errorWidget
+// builds immediately — nothing here depends on path_provider.
+//
+// This must be built fresh inside the test body, not reused as a shared
+// singleton (there's only one test in this file today, which is the only
+// reason a singleton would happen to work — don't copy that pattern if a
+// second test is added here). See the comment on CacheManager construction
+// below for why it can't be built in setUp() either.
+CacheManager _newTestCacheManager() =>
+    CacheManager(Config('testImageCache', repo: NonStoringObjectProvider()));
 
 Recipe _buildRecipe(String id, String title) => Recipe(
   id: id,
@@ -50,16 +47,16 @@ void main() {
   testWidgets(
     'bottom nav switches between Home, Discover, Favorites, and Profile',
     (tester) async {
-      // path_provider is also used by the cache manager's file system to
-      // locate where downloaded images would be written; mock it so that
-      // path resolves instantly instead of hanging on an unanswered
-      // platform channel call.
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(
-            const MethodChannel('plugins.flutter.io/path_provider'),
-            (call) async => Directory.systemTemp.path,
-          );
-      CachedNetworkImageProvider.defaultCacheManager = _TestCacheManager();
+      // Must be constructed here, inside the test body — not in setUp()
+      // and not cached as a shared singleton. CacheManager's constructor
+      // kicks off CacheStore's `config.repo.open().then(...)` future
+      // immediately, and that future is bound to whichever Dart zone it
+      // was created in. flutter_test runs each test body in its own zone
+      // (distinct from setUp()'s zone), so a CacheManager built outside
+      // this test body would have its internal future tied to a zone this
+      // test's pumpAndSettle() can't service, and it would hang forever
+      // waiting on work scheduled in a zone nothing here is pumping.
+      CachedNetworkImageProvider.defaultCacheManager = _newTestCacheManager();
 
       tester.view.physicalSize = const Size(400, 800);
       tester.view.devicePixelRatio = 1.0;

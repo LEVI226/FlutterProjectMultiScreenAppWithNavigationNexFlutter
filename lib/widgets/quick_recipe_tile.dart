@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/recipe.dart';
@@ -25,14 +26,13 @@ class QuickRecipeTile extends StatelessWidget {
                 child: SizedBox(
                   width: 80,
                   height: 80,
-                  child: Image.network(
-                    recipe.imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: recipe.imageUrl,
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, progress) =>
-                        progress == null
-                        ? child
-                        : ColoredBox(color: colorScheme.surfaceContainerHigh),
-                    errorBuilder: (context, error, stackTrace) => ColoredBox(
+                    fadeInDuration: const Duration(milliseconds: 200),
+                    placeholder: (context, url) =>
+                        ColoredBox(color: colorScheme.surfaceContainerHigh),
+                    errorWidget: (context, url, error) => ColoredBox(
                       color: colorScheme.surfaceContainerHigh,
                       child: Icon(
                         Icons.restaurant,

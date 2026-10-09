@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:savorly/models/category.dart';
@@ -11,28 +8,31 @@ import 'package:savorly/screens/discover_screen.dart';
 import 'package:savorly/state/recipe_store.dart';
 
 // RecipeCard renders its image via CachedNetworkImage. The default
-// CacheManager stores cache metadata in a JSON file resolved through
-// path_provider, which has no platform-channel implementation in the widget
-// test environment and never resolves there, so pumpAndSettle() times out
-// waiting for the placeholder's spinner to stop. Swapping in a cache manager
-// backed by [NonStoringObjectProvider] skips that file-backed metadata store
-// entirely, letting the (mocked, always-400) network request fail fast and
-// the errorWidget build immediately.
+// CacheManager stores cache metadata via a JsonCacheInfoRepository, which
+// does real file I/O. Swapping in a cache manager backed by
+// [NonStoringObjectProvider] skips that file-backed metadata store entirely
+// (retrieveCacheData just returns null, nothing touches the filesystem), so
+// the (mocked by flutter_test, always-400) network request fails fast and
+// errorWidget builds immediately.
 //
-// A fresh CacheManager (with a unique cache key) is built for every test
-// rather than reused as a singleton: all the test recipes here share the
-// same (empty) imageUrl, and WebHelper's in-flight-request bookkeeping is
-// keyed by url, so reusing one instance across tests let a later test's
-// image request get stuck subscribed to an already-finished stream left
-// over from an earlier test.
+// A fresh CacheManager (with a unique cache key) is built inside every test
+// body rather than reused as a shared singleton, for two independent
+// reasons:
+//   1. CacheManager's constructor kicks off CacheStore's
+//      `config.repo.open().then(...)` future immediately, and that future
+//      is bound to whichever Dart zone it was created in. flutter_test
+//      runs each test body in its own zone, so a CacheManager built outside
+//      a given test body (e.g. in setUp(), or reused from an earlier test)
+//      would have its internal future tied to a zone that test's
+//      pumpAndSettle() can't service, hanging forever.
+//   2. All the test recipes here share the same (empty) imageUrl, and
+//      WebHelper's in-flight-request bookkeeping is keyed by url — so even
+//      within the right zone, reusing one instance across tests could let a
+//      later test's image request get stuck subscribed to an
+//      already-finished stream left over from an earlier test.
 int _cacheManagerSeq = 0;
 
 void _mockImageLoading() {
-  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-      .setMockMethodCallHandler(
-        const MethodChannel('plugins.flutter.io/path_provider'),
-        (call) async => Directory.systemTemp.path,
-      );
   CachedNetworkImageProvider.defaultCacheManager = CacheManager(
     Config('testImageCache${_cacheManagerSeq++}', repo: NonStoringObjectProvider()),
   );
