@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'data/recipe_repository.dart';
+import 'l10n/app_localizations.dart';
 import 'router/app_router.dart';
+import 'state/locale_controller.dart';
 import 'state/recipe_store.dart';
 import 'state/theme_controller.dart';
 import 'theme/app_theme.dart';
@@ -15,6 +17,9 @@ Future<void> main() async {
     SavorlyApp(
       store: RecipeStore(initialRecipes: recipes, categories: categories),
       themeController: ThemeController(),
+      localeController: LocaleController(
+        deviceLocale: WidgetsBinding.instance.platformDispatcher.locale,
+      ),
     ),
   );
 }
@@ -24,10 +29,12 @@ class SavorlyApp extends StatefulWidget {
     super.key,
     required this.store,
     required this.themeController,
+    required this.localeController,
   });
 
   final RecipeStore store;
   final ThemeController themeController;
+  final LocaleController localeController;
 
   @override
   State<SavorlyApp> createState() => _SavorlyAppState();
@@ -42,15 +49,24 @@ class _SavorlyAppState extends State<SavorlyApp> {
       store: widget.store,
       child: ThemeControllerScope(
         controller: widget.themeController,
-        child: AnimatedBuilder(
-          animation: widget.themeController,
-          builder: (context, _) => MaterialApp.router(
-            title: 'Savorly',
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.light(),
-            darkTheme: AppTheme.dark(),
-            themeMode: widget.themeController.mode,
-            routerConfig: _router,
+        child: LocaleControllerScope(
+          controller: widget.localeController,
+          child: AnimatedBuilder(
+            animation: Listenable.merge([
+              widget.themeController,
+              widget.localeController,
+            ]),
+            builder: (context, _) => MaterialApp.router(
+              title: 'Savorly',
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.light(),
+              darkTheme: AppTheme.dark(),
+              themeMode: widget.themeController.mode,
+              locale: widget.localeController.locale,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              routerConfig: _router,
+            ),
           ),
         ),
       ),

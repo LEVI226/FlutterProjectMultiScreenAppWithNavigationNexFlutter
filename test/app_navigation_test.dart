@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:savorly/main.dart';
 import 'package:savorly/models/recipe.dart';
+import 'package:savorly/state/locale_controller.dart';
 import 'package:savorly/state/recipe_store.dart';
 import 'package:savorly/state/theme_controller.dart';
 
@@ -71,9 +72,16 @@ void main() {
         categories: const [],
       );
       final themeController = ThemeController();
+      final localeController = LocaleController(
+        deviceLocale: const Locale('en'),
+      );
 
       await tester.pumpWidget(
-        SavorlyApp(store: store, themeController: themeController),
+        SavorlyApp(
+          store: store,
+          themeController: themeController,
+          localeController: localeController,
+        ),
       );
       await tester.pumpAndSettle();
 

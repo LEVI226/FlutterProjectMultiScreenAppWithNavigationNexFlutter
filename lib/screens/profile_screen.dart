@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../state/locale_controller.dart';
 import '../state/recipe_store.dart';
 import '../state/theme_controller.dart';
 import '../widgets/section_header.dart';
@@ -82,6 +83,23 @@ class ProfileScreen extends StatelessWidget {
             subtitle: const Text('Switch the app theme'),
             value: isDark,
             onChanged: (_) => theme.toggle(),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.language),
+            title: const Text('Language'),
+            subtitle: const Text('Choose English or French'),
+            trailing: SegmentedButton<Locale>(
+              segments: const [
+                ButtonSegment(value: Locale('en'), label: Text('EN')),
+                ButtonSegment(value: Locale('fr'), label: Text('FR')),
+              ],
+              selected: {LocaleControllerScope.of(context).locale},
+              onSelectionChanged: (selection) =>
+                  LocaleControllerScope.of(context).setLocale(selection.first),
+            ),
           ),
         ),
       ],
