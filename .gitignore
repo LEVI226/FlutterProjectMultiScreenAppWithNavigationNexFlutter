@@ -2,6 +2,8 @@
 
 .dart_tool/
 .flutter-plugins
+lib/l10n/app_localizations.dart
+lib/l10n/app_localizations_*.dart
 .flutter-plugins-dependencies
 .idea/
 *.iml
