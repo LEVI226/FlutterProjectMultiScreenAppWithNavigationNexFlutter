@@ -144,21 +144,25 @@ class _FavoriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 32,
-        height: 32,
-        decoration: BoxDecoration(
-          color: colorScheme.surface.withValues(alpha: 0.9),
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          isFavorite ? Icons.favorite : Icons.favorite_border,
-          size: 18,
-          color: isFavorite
-              ? colorScheme.primary
-              : colorScheme.onSurfaceVariant,
+    return Semantics(
+      button: true,
+      label: isFavorite ? 'Remove from favorites' : 'Add to favorites',
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: colorScheme.surface.withValues(alpha: 0.9),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            isFavorite ? Icons.favorite : Icons.favorite_border,
+            size: 18,
+            color: isFavorite
+                ? colorScheme.primary
+                : colorScheme.onSurfaceVariant,
+          ),
         ),
       ),
     );

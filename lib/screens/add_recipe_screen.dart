@@ -266,11 +266,13 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                           ? () => setState(() => _servings--)
                           : null,
                       icon: const Icon(Icons.remove_circle_outline),
+                      tooltip: 'Decrease servings',
                     ),
                     Text('$_servings'),
                     IconButton(
                       onPressed: () => setState(() => _servings++),
                       icon: const Icon(Icons.add_circle_outline),
+                      tooltip: 'Increase servings',
                     ),
                   ],
                 ),
@@ -397,6 +399,7 @@ class _IngredientRow extends StatelessWidget {
           IconButton(
             onPressed: canRemove ? onRemove : null,
             icon: const Icon(Icons.delete_outline),
+            tooltip: 'Remove ingredient',
           ),
         ],
       ),
@@ -434,6 +437,7 @@ class _StepRow extends StatelessWidget {
                 IconButton(
                   onPressed: canRemove ? onRemove : null,
                   icon: const Icon(Icons.delete_outline),
+                  tooltip: 'Remove step',
                 ),
               ],
             ),

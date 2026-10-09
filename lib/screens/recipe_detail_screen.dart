@@ -293,11 +293,13 @@ class _IngredientsTab extends StatelessWidget {
                   ? () => onServingChanged(servings - 1)
                   : null,
               icon: const Icon(Icons.remove_circle_outline),
+              tooltip: 'Decrease servings',
             ),
             Text('$servings'),
             IconButton(
               onPressed: () => onServingChanged(servings + 1),
               icon: const Icon(Icons.add_circle_outline),
+              tooltip: 'Increase servings',
             ),
           ],
         ),
