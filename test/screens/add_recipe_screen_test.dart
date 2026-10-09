@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:savorly/l10n/app_localizations.dart';
 import 'package:savorly/models/category.dart';
 import 'package:savorly/screens/add_recipe_screen.dart';
 import 'package:savorly/state/recipe_store.dart';
 
 Widget _wrap(RecipeStore store) => MaterialApp(
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  supportedLocales: AppLocalizations.supportedLocales,
   home: RecipeStoreScope(store: store, child: const AddRecipeScreen()),
 );
 

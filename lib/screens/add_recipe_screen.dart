@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:savorly/l10n/app_localizations.dart';
+
 import '../models/recipe.dart';
 import '../state/recipe_store.dart';
 
@@ -104,9 +106,10 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         .where((draft) => draft.description.text.trim().isNotEmpty)
         .toList();
     if (ingredients.isEmpty || steps.isEmpty) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Add at least one ingredient and one step.'),
+        SnackBar(
+          content: Text(l10n.addRecipeValidationSnack),
         ),
       );
       return;
@@ -154,9 +157,10 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final categories = RecipeStoreScope.of(context).categories;
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Recipe')),
+      appBar: AppBar(title: Text(l10n.addRecipeTitle)),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -178,12 +182,12 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                               color: Theme.of(context)
                                   .colorScheme
                                   .surfaceContainerHigh,
-                              child: const Column(
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.photo_camera, size: 32),
-                                  SizedBox(height: 8),
-                                  Text('Tap to add a cover photo'),
+                                  const Icon(Icons.photo_camera, size: 32),
+                                  const SizedBox(height: 8),
+                                  Text(l10n.addRecipePhotoHint),
                                 ],
                               ),
                             )
@@ -194,19 +198,19 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _titleController,
-                  decoration: const InputDecoration(labelText: 'Recipe Name *'),
+                  decoration: InputDecoration(labelText: l10n.addRecipeNameLabel),
                   validator: (value) =>
                       (value == null || value.trim().length < 3)
-                      ? 'Title must be at least 3 characters'
+                      ? l10n.addRecipeNameError
                       : null,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _descriptionController,
                   maxLines: 3,
-                  decoration: const InputDecoration(labelText: 'Description *'),
+                  decoration: InputDecoration(labelText: l10n.addRecipeDescriptionLabel),
                   validator: (value) => (value == null || value.trim().isEmpty)
-                      ? 'Description is required'
+                      ? l10n.addRecipeDescriptionError
                       : null,
                 ),
                 const SizedBox(height: 12),
@@ -216,13 +220,13 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                       child: TextFormField(
                         controller: _prepMinutesController,
                         keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          labelText: 'Prep Time *',
+                        decoration: InputDecoration(
+                          labelText: l10n.addRecipePrepTimeLabel,
                         ),
                         validator: (value) {
                           final parsed = int.tryParse(value ?? '');
                           return parsed == null || parsed <= 0
-                              ? 'Enter a positive number'
+                              ? l10n.addRecipePrepTimeError
                               : null;
                         },
                       ),
@@ -232,8 +236,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                       child: TextFormField(
                         controller: _cookMinutesController,
                         keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          labelText: 'Cook Time',
+                        decoration: InputDecoration(
+                          labelText: l10n.addRecipeCookTimeLabel,
                         ),
                       ),
                     ),
@@ -242,7 +246,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
                   initialValue: _category,
-                  decoration: const InputDecoration(labelText: 'Category *'),
+                  decoration: InputDecoration(labelText: l10n.addRecipeCategoryLabel),
                   items: [
                     for (final category in categories)
                       DropdownMenuItem(
@@ -257,7 +261,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 Row(
                   children: [
                     Text(
-                      'Servings',
+                      l10n.addRecipeServings,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     const Spacer(),
@@ -266,13 +270,13 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                           ? () => setState(() => _servings--)
                           : null,
                       icon: const Icon(Icons.remove_circle_outline),
-                      tooltip: 'Decrease servings',
+                      tooltip: l10n.addRecipeDecreaseServings,
                     ),
                     Text('$_servings'),
                     IconButton(
                       onPressed: () => setState(() => _servings++),
                       icon: const Icon(Icons.add_circle_outline),
-                      tooltip: 'Increase servings',
+                      tooltip: l10n.addRecipeIncreaseServings,
                     ),
                   ],
                 ),
@@ -286,7 +290,10 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                       setState(() => _difficulty = selection.first),
                 ),
                 const SizedBox(height: 20),
-                _SectionTitle(title: 'Ingredients', onAdd: _addIngredient),
+                _SectionTitle(
+                  title: l10n.addRecipeIngredientsSection,
+                  onAdd: _addIngredient,
+                ),
                 for (var i = 0; i < _ingredients.length; i++)
                   _IngredientRow(
                     draft: _ingredients[i],
@@ -294,7 +301,10 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     onRemove: () => _removeIngredient(i),
                   ),
                 const SizedBox(height: 12),
-                _SectionTitle(title: 'Steps', onAdd: _addStep),
+                _SectionTitle(
+                  title: l10n.addRecipeStepsSection,
+                  onAdd: _addStep,
+                ),
                 for (var i = 0; i < _steps.length; i++)
                   _StepRow(
                     index: i,
@@ -308,7 +318,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Cancel'),
+                        child: Text(l10n.addRecipeCancel),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -317,7 +327,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                       child: FilledButton.icon(
                         onPressed: _publish,
                         icon: const Icon(Icons.check_circle),
-                        label: const Text('Publish Recipe'),
+                        label: Text(l10n.addRecipePublish),
                       ),
                     ),
                   ],
@@ -339,6 +349,7 @@ class _SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       children: [
         Text(
@@ -350,7 +361,7 @@ class _SectionTitle extends StatelessWidget {
         TextButton.icon(
           onPressed: onAdd,
           icon: const Icon(Icons.add),
-          label: const Text('Add'),
+          label: Text(l10n.addRecipeAddButton),
         ),
       ],
     );
@@ -370,6 +381,7 @@ class _IngredientRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
@@ -378,7 +390,7 @@ class _IngredientRow extends StatelessWidget {
             flex: 3,
             child: TextFormField(
               controller: draft.name,
-              decoration: const InputDecoration(hintText: 'Ingredient'),
+              decoration: InputDecoration(hintText: l10n.addRecipeIngredientHint),
             ),
           ),
           const SizedBox(width: 8),
@@ -386,20 +398,20 @@ class _IngredientRow extends StatelessWidget {
             child: TextFormField(
               controller: draft.quantity,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(hintText: 'Qty'),
+              decoration: InputDecoration(hintText: l10n.addRecipeQuantityHint),
             ),
           ),
           const SizedBox(width: 8),
           Expanded(
             child: TextFormField(
               controller: draft.unit,
-              decoration: const InputDecoration(hintText: 'Unit'),
+              decoration: InputDecoration(hintText: l10n.addRecipeUnitHint),
             ),
           ),
           IconButton(
             onPressed: canRemove ? onRemove : null,
             icon: const Icon(Icons.delete_outline),
-            tooltip: 'Remove ingredient',
+            tooltip: l10n.addRecipeRemoveIngredient,
           ),
         ],
       ),
@@ -422,6 +434,7 @@ class _StepRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -430,27 +443,27 @@ class _StepRow extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Step ${index + 1}',
+                  l10n.addRecipeStepLabel(index + 1),
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
                 const Spacer(),
                 IconButton(
                   onPressed: canRemove ? onRemove : null,
                   icon: const Icon(Icons.delete_outline),
-                  tooltip: 'Remove step',
+                  tooltip: l10n.addRecipeRemoveStep,
                 ),
               ],
             ),
             TextFormField(
               controller: draft.title,
-              decoration: const InputDecoration(hintText: 'Title'),
+              decoration: InputDecoration(hintText: l10n.addRecipeStepTitleHint),
             ),
             const SizedBox(height: 8),
             TextFormField(
               controller: draft.description,
               maxLines: 2,
-              decoration: const InputDecoration(
-                hintText: 'Describe this cooking step',
+              decoration: InputDecoration(
+                hintText: l10n.addRecipeStepDescriptionHint,
               ),
             ),
           ],
