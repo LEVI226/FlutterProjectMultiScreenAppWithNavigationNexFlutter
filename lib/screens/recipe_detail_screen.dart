@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/recipe.dart';
 import '../state/recipe_store.dart';
 
@@ -37,10 +38,11 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final store = RecipeStoreScope.of(context);
     final recipe = store.byId(widget.recipeId);
     if (recipe == null) {
-      return const Scaffold(body: Center(child: Text('Recipe not found')));
+      return Scaffold(body: Center(child: Text(l10n.recipeNotFound)));
     }
     if (!_initializedServings) {
       _servings = recipe.servings;
@@ -62,7 +64,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                       ? Icons.favorite
                       : Icons.favorite_border,
                 ),
-                tooltip: 'Favorite',
+                tooltip: l10n.recipeFavoriteTooltip,
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(
@@ -110,10 +112,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
               _RecipeSummary(recipe: recipe),
               TabBar(
                 controller: _tabController,
-                tabs: const [
-                  Tab(text: 'Overview'),
-                  Tab(text: 'Ingredients'),
-                  Tab(text: 'Steps'),
+                tabs: [
+                  Tab(text: l10n.recipeTabOverview),
+                  Tab(text: l10n.recipeTabIngredients),
+                  Tab(text: l10n.recipeTabSteps),
                 ],
               ),
               Expanded(
@@ -150,16 +152,16 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
             children: [
               Expanded(
                 child: FilledButton.icon(
-                  onPressed: () => _snack('Cooking mode is a future upgrade.'),
+                  onPressed: () => _snack(l10n.recipeCookingModeUpgrade),
                   icon: const Icon(Icons.play_arrow),
-                  label: const Text('Start Cooking'),
+                  label: Text(l10n.recipeStartCooking),
                 ),
               ),
               const SizedBox(width: 12),
               IconButton.filledTonal(
-                onPressed: () => _snack('Audio guide is a future upgrade.'),
+                onPressed: () => _snack(l10n.recipeAudioGuideUpgrade),
                 icon: const Icon(Icons.volume_up),
-                tooltip: 'Audio guide',
+                tooltip: l10n.recipeAudioGuideTooltip,
               ),
             ],
           ),
@@ -227,6 +229,7 @@ class _OverviewTabState extends State<_OverviewTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final recipe = widget.recipe;
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -237,10 +240,10 @@ class _OverviewTabState extends State<_OverviewTab> {
           child: ListTile(
             leading: const CircleAvatar(child: Icon(Icons.person)),
             title: Text(recipe.authorName),
-            subtitle: const Text('Recipe creator'),
+            subtitle: Text(l10n.recipeCreator),
             trailing: FilledButton.tonal(
               onPressed: () => setState(() => _following = !_following),
-              child: Text(_following ? 'Following' : 'Follow'),
+              child: Text(_following ? l10n.recipeFollowing : l10n.recipeFollow),
             ),
           ),
         ),
@@ -250,7 +253,7 @@ class _OverviewTabState extends State<_OverviewTab> {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Text(
-              'Chef Secret: season in small layers and taste before serving.',
+              l10n.recipeChefSecret,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
@@ -277,26 +280,30 @@ class _IngredientsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final multiplier = servings / recipe.servings;
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
         Row(
           children: [
-            Text('Servings', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              l10n.recipeServings,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const Spacer(),
             IconButton(
               onPressed: servings > 1
                   ? () => onServingChanged(servings - 1)
                   : null,
               icon: const Icon(Icons.remove_circle_outline),
-              tooltip: 'Decrease servings',
+              tooltip: l10n.recipeDecreaseServings,
             ),
             Text('$servings'),
             IconButton(
               onPressed: () => onServingChanged(servings + 1),
               icon: const Icon(Icons.add_circle_outline),
-              tooltip: 'Increase servings',
+              tooltip: l10n.recipeIncreaseServings,
             ),
           ],
         ),

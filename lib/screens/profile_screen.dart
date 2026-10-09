@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../state/locale_controller.dart';
 import '../state/recipe_store.dart';
 import '../state/theme_controller.dart';
@@ -10,6 +11,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final store = RecipeStoreScope.of(context);
     final theme = ThemeControllerScope.of(context);
     final colorScheme = Theme.of(context).colorScheme;
@@ -21,10 +23,10 @@ class ProfileScreen extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        const SectionHeader(
+        SectionHeader(
           icon: Icons.person_outline,
-          title: 'Profile',
-          subtitle: 'Your Savorly kitchen',
+          title: l10n.profileTitle,
+          subtitle: l10n.profileSubtitle,
         ),
         const SizedBox(height: 24),
         CircleAvatar(
@@ -56,18 +58,21 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(
                   width: itemWidth,
                   child: _StatCard(
-                    label: 'Recipes',
+                    label: l10n.profileStatRecipes,
                     value: '${store.all.length}',
                   ),
                 ),
                 SizedBox(
                   width: itemWidth,
-                  child: _StatCard(label: 'Added', value: '$userRecipes'),
+                  child: _StatCard(
+                    label: l10n.profileStatAdded,
+                    value: '$userRecipes',
+                  ),
                 ),
                 SizedBox(
                   width: itemWidth,
                   child: _StatCard(
-                    label: 'Favorites',
+                    label: l10n.profileStatFavorites,
                     value: '${store.favoriteIds.length}',
                   ),
                 ),
@@ -79,8 +84,8 @@ class ProfileScreen extends StatelessWidget {
         Card(
           child: SwitchListTile(
             secondary: const Icon(Icons.dark_mode_outlined),
-            title: const Text('Dark mode'),
-            subtitle: const Text('Switch the app theme'),
+            title: Text(l10n.profileDarkMode),
+            subtitle: Text(l10n.profileDarkModeSubtitle),
             value: isDark,
             onChanged: (_) => theme.toggle(),
           ),
@@ -89,8 +94,8 @@ class ProfileScreen extends StatelessWidget {
         Card(
           child: ListTile(
             leading: const Icon(Icons.language),
-            title: const Text('Language'),
-            subtitle: const Text('Choose English or French'),
+            title: Text(l10n.profileLanguage),
+            subtitle: Text(l10n.profileLanguageSubtitle),
             trailing: SegmentedButton<Locale>(
               segments: const [
                 ButtonSegment(value: Locale('en'), label: Text('EN')),
