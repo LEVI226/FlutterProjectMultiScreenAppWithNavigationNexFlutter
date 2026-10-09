@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:savorly/l10n/app_localizations.dart';
 import 'package:savorly/models/category.dart';
 import 'package:savorly/models/recipe.dart';
 import 'package:savorly/screens/discover_screen.dart';
@@ -64,6 +65,8 @@ Recipe _recipe({
 );
 
 Widget _wrap(RecipeStore store) => MaterialApp(
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  supportedLocales: AppLocalizations.supportedLocales,
   home: RecipeStoreScope(store: store, child: const DiscoverScreen()),
 );
 

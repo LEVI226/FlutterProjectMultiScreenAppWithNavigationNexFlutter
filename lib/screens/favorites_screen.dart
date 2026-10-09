@@ -4,12 +4,14 @@ import 'package:go_router/go_router.dart';
 import '../state/recipe_store.dart';
 import '../widgets/recipe_card.dart';
 import '../widgets/section_header.dart';
+import 'package:savorly/l10n/app_localizations.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final store = RecipeStoreScope.of(context);
     final recipes = store.favorites;
     final width = MediaQuery.sizeOf(context).width;
@@ -24,8 +26,8 @@ class FavoritesScreen extends StatelessWidget {
       children: [
         SectionHeader(
           icon: Icons.favorite_border,
-          title: 'Favorites',
-          subtitle: '${recipes.length} saved recipes',
+          title: l10n.favoritesTitle,
+          subtitle: l10n.favoritesSavedCount(recipes.length),
         ),
         const SizedBox(height: 16),
         if (recipes.isEmpty)
@@ -40,13 +42,13 @@ class FavoritesScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'No favorites yet',
+                  l10n.favoritesEmptyTitle,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 6),
                 TextButton(
                   onPressed: () => context.goNamed('discover'),
-                  child: const Text('Find recipes'),
+                  child: Text(l10n.favoritesFindRecipes),
                 ),
               ],
             ),

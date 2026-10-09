@@ -7,12 +7,14 @@ import '../widgets/featured_recipe_card.dart';
 import '../widgets/quick_recipe_tile.dart';
 import '../widgets/recipe_card.dart';
 import '../widgets/section_header.dart';
+import 'package:savorly/l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final store = RecipeStoreScope.of(context);
     final featured = store.featured;
     final popular = store.popular;
@@ -30,13 +32,13 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Good morning',
+                    l10n.homeGreeting,
                     style: textTheme.labelLarge?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),
                   ),
                   Text(
-                    'What would you like to cook?',
+                    l10n.homeQuestion,
                     style: textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.w800,
                     ),
@@ -47,7 +49,7 @@ class HomeScreen extends StatelessWidget {
             IconButton.filledTonal(
               onPressed: () => context.goNamed('discover'),
               icon: const Icon(Icons.tune),
-              tooltip: 'Discover recipes',
+              tooltip: l10n.homeDiscoverTooltip,
             ),
           ],
         ),
@@ -55,9 +57,9 @@ class HomeScreen extends StatelessWidget {
         TextField(
           readOnly: true,
           onTap: () => context.goNamed('discover'),
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.search),
-            hintText: 'Search recipes',
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.search),
+            hintText: l10n.homeSearchHint,
           ),
         ),
         const SizedBox(height: 18),
@@ -79,9 +81,9 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        const SectionHeader(
+        SectionHeader(
           icon: Icons.local_fire_department_outlined,
-          title: 'Featured Recipe',
+          title: l10n.homeFeaturedRecipe,
         ),
         const SizedBox(height: 12),
         if (featured != null)
@@ -95,10 +97,10 @@ class HomeScreen extends StatelessWidget {
         const SizedBox(height: 24),
         SectionHeader(
           icon: Icons.star_border,
-          title: 'Popular Recipes',
+          title: l10n.homePopularRecipes,
           trailing: TextButton(
             onPressed: () => context.goNamed('discover'),
-            child: const Text('See all'),
+            child: Text(l10n.homeSeeAll),
           ),
         ),
         const SizedBox(height: 12),
@@ -126,10 +128,10 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        const SectionHeader(
+        SectionHeader(
           icon: Icons.bolt_outlined,
-          title: 'Quick & Easy',
-          subtitle: 'Ready in 30 minutes or less',
+          title: l10n.homeQuickAndEasy,
+          subtitle: l10n.homeQuickSubtitle,
         ),
         const SizedBox(height: 12),
         for (final recipe in quick)

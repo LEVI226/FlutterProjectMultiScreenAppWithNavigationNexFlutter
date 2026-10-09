@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:savorly/l10n/app_localizations.dart';
 import 'package:savorly/models/recipe.dart';
 import 'package:savorly/widgets/recipe_card.dart';
 
@@ -27,6 +28,8 @@ void main() {
     (tester) async {
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
             body: RecipeCard(
               recipe: _testRecipe(),
@@ -52,6 +55,8 @@ void main() {
       var toggled = false;
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
             body: RecipeCard(
               recipe: _testRecipe(),
@@ -74,6 +79,8 @@ void main() {
     var tapped = false;
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: RecipeCard(
             recipe: _testRecipe(),

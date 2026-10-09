@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/recipe.dart';
+import 'package:savorly/l10n/app_localizations.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
@@ -142,10 +143,11 @@ class _FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
     return Semantics(
       button: true,
-      label: isFavorite ? 'Remove from favorites' : 'Add to favorites',
+      label: isFavorite ? l10n.favoriteButtonRemove : l10n.favoriteButtonAdd,
       child: GestureDetector(
         onTap: onTap,
         child: Container(

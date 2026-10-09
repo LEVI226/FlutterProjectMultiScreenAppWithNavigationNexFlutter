@@ -8,6 +8,7 @@ import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/recipe_detail_screen.dart';
 import '../state/recipe_store.dart';
+import 'package:savorly/l10n/app_localizations.dart';
 
 class _NavDestination {
   const _NavDestination(
@@ -15,37 +16,51 @@ class _NavDestination {
     this.routeName,
     this.icon,
     this.selectedIcon,
-    this.label,
+    this.labelOf,
   );
   final String path;
   final String routeName;
   final IconData icon;
   final IconData selectedIcon;
-  final String label;
+  final String Function(BuildContext context) labelOf;
 }
 
+String _homeLabel(BuildContext context) => AppLocalizations.of(context)!.navHome;
+String _discoverLabel(BuildContext context) =>
+    AppLocalizations.of(context)!.navDiscover;
+String _favoritesLabel(BuildContext context) =>
+    AppLocalizations.of(context)!.navFavorites;
+String _profileLabel(BuildContext context) =>
+    AppLocalizations.of(context)!.navProfile;
+
 const _destinations = [
-  _NavDestination('/', 'home', Icons.home_outlined, Icons.home, 'Home'),
+  _NavDestination(
+    '/',
+    'home',
+    Icons.home_outlined,
+    Icons.home,
+    _homeLabel,
+  ),
   _NavDestination(
     '/discover',
     'discover',
     Icons.search_outlined,
     Icons.search,
-    'Discover',
+    _discoverLabel,
   ),
   _NavDestination(
     '/favorites',
     'favorites',
     Icons.favorite_border,
     Icons.favorite,
-    'Favorites',
+    _favoritesLabel,
   ),
   _NavDestination(
     '/profile',
     'profile',
     Icons.person_outline,
     Icons.person,
-    'Profile',
+    _profileLabel,
   ),
 ];
 
@@ -82,7 +97,7 @@ class AppShell extends StatelessWidget {
                     NavigationRailDestination(
                       icon: Icon(d.icon),
                       selectedIcon: Icon(d.selectedIcon),
-                      label: Text(d.label),
+                      label: Text(d.labelOf(context)),
                     ),
                 ],
               ),
@@ -104,7 +119,7 @@ class AppShell extends StatelessWidget {
             NavigationDestination(
               icon: Icon(d.icon),
               selectedIcon: Icon(d.selectedIcon),
-              label: d.label,
+              label: d.labelOf(context),
             ),
         ],
       ),

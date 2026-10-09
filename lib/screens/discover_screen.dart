@@ -6,6 +6,7 @@ import '../state/recipe_store.dart';
 import '../widgets/category_chip.dart';
 import '../widgets/recipe_card.dart';
 import '../widgets/section_header.dart';
+import 'package:savorly/l10n/app_localizations.dart';
 
 enum _SortMode { rating, quickest, newest }
 
@@ -67,73 +68,78 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     await showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setSheetState) => SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Filters',
-                  style: Theme.of(context).textTheme.titleLarge
-                      ?.copyWith(fontWeight: FontWeight.w800),
-                ),
-                const SizedBox(height: 16),
-                Text('Max total time: ${pendingMax.round()} min'),
-                Slider(
-                  value: pendingMax,
-                  min: 15,
-                  max: 90,
-                  divisions: 5,
-                  label: '${pendingMax.round()} min',
-                  onChanged: (value) => setSheetState(() => pendingMax = value),
-                ),
-                const SizedBox(height: 8),
-                SegmentedButton<_SortMode>(
-                  selected: {pendingSort},
-                  segments: const [
-                    ButtonSegment(
-                      value: _SortMode.rating,
-                      label: Text('Top'),
-                      icon: Icon(Icons.star),
-                    ),
-                    ButtonSegment(
-                      value: _SortMode.quickest,
-                      label: Text('Fast'),
-                      icon: Icon(Icons.bolt),
-                    ),
-                    ButtonSegment(
-                      value: _SortMode.newest,
-                      label: Text('New'),
-                      icon: Icon(Icons.fiber_new),
-                    ),
-                  ],
-                  onSelectionChanged: (selection) =>
-                      setSheetState(() => pendingSort = selection.first),
-                ),
-                const SizedBox(height: 16),
-                FilledButton(
-                  onPressed: () {
-                    setState(() {
-                      _sortMode = pendingSort;
-                      _maxCookMinutes = pendingMax;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Apply Filters'),
-                ),
-              ],
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return StatefulBuilder(
+          builder: (context, setSheetState) => SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.discoverFiltersTitle,
+                    style: Theme.of(context).textTheme.titleLarge
+                        ?.copyWith(fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(l10n.discoverMaxTime(pendingMax.round())),
+                  Slider(
+                    value: pendingMax,
+                    min: 15,
+                    max: 90,
+                    divisions: 5,
+                    label: '${pendingMax.round()} min',
+                    onChanged: (value) =>
+                        setSheetState(() => pendingMax = value),
+                  ),
+                  const SizedBox(height: 8),
+                  SegmentedButton<_SortMode>(
+                    selected: {pendingSort},
+                    segments: [
+                      ButtonSegment(
+                        value: _SortMode.rating,
+                        label: Text(l10n.discoverSortTop),
+                        icon: const Icon(Icons.star),
+                      ),
+                      ButtonSegment(
+                        value: _SortMode.quickest,
+                        label: Text(l10n.discoverSortFast),
+                        icon: const Icon(Icons.bolt),
+                      ),
+                      ButtonSegment(
+                        value: _SortMode.newest,
+                        label: Text(l10n.discoverSortNew),
+                        icon: const Icon(Icons.fiber_new),
+                      ),
+                    ],
+                    onSelectionChanged: (selection) =>
+                        setSheetState(() => pendingSort = selection.first),
+                  ),
+                  const SizedBox(height: 16),
+                  FilledButton(
+                    onPressed: () {
+                      setState(() {
+                        _sortMode = pendingSort;
+                        _maxCookMinutes = pendingMax;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(l10n.discoverApplyFilters),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final store = RecipeStoreScope.of(context);
     final recipes = _recipes(store);
     final width = MediaQuery.sizeOf(context).width;
@@ -151,21 +157,21 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         children: [
           SectionHeader(
             icon: Icons.search,
-            title: 'Discover',
-            subtitle: '${recipes.length} recipes found',
+            title: l10n.discoverTitle,
+            subtitle: l10n.discoverRecipesFound(recipes.length),
             trailing: IconButton.filledTonal(
               onPressed: _showFilters,
               icon: const Icon(Icons.tune),
-              tooltip: 'Filters',
+              tooltip: l10n.discoverFiltersTooltip,
             ),
           ),
           const SizedBox(height: 16),
           TextField(
             controller: _searchController,
             onChanged: (_) => setState(() {}),
-            decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              hintText: 'Search by recipe name',
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.search),
+              hintText: l10n.discoverSearchHint,
             ),
           ),
           const SizedBox(height: 12),
@@ -177,7 +183,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: CategoryChip(
-                    label: 'All',
+                    label: l10n.discoverAllCategory,
                     selected: _category == 'all',
                     onTap: () => setState(() => _category = 'all'),
                   ),
@@ -207,7 +213,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 icon: Icon(
                   _denseGrid ? Icons.grid_view : Icons.view_module_outlined,
                 ),
-                tooltip: 'Grid density',
+                tooltip: l10n.discoverGridDensityTooltip,
               ),
             ],
           ),
@@ -240,7 +246,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.pushNamed('add-recipe'),
         icon: const Icon(Icons.add),
-        label: const Text('Recipe'),
+        label: Text(l10n.discoverAddRecipeFab),
       ),
     );
   }
