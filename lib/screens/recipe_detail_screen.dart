@@ -243,7 +243,9 @@ class _OverviewTabState extends State<_OverviewTab> {
             subtitle: Text(l10n.recipeCreator),
             trailing: FilledButton.tonal(
               onPressed: () => setState(() => _following = !_following),
-              child: Text(_following ? l10n.recipeFollowing : l10n.recipeFollow),
+              child: Text(
+                _following ? l10n.recipeFollowing : l10n.recipeFollow,
+              ),
             ),
           ),
         ),

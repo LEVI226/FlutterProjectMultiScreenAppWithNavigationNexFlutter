@@ -35,7 +35,10 @@ int _cacheManagerSeq = 0;
 
 void _mockImageLoading() {
   CachedNetworkImageProvider.defaultCacheManager = CacheManager(
-    Config('testImageCache${_cacheManagerSeq++}', repo: NonStoringObjectProvider()),
+    Config(
+      'testImageCache${_cacheManagerSeq++}',
+      repo: NonStoringObjectProvider(),
+    ),
   );
 }
 
@@ -76,9 +79,30 @@ void main() {
   setUp(() {
     store = RecipeStore(
       initialRecipes: [
-        _recipe(id: '1', title: 'Pasta Bolognese', category: 'dinner', prepMinutes: 15, cookMinutes: 30, rating: 4.8),
-        _recipe(id: '2', title: 'Quick Salad', category: 'lunch', prepMinutes: 10, cookMinutes: 0, rating: 4.2),
-        _recipe(id: '3', title: 'Pancakes', category: 'breakfast', prepMinutes: 10, cookMinutes: 15, rating: 4.5),
+        _recipe(
+          id: '1',
+          title: 'Pasta Bolognese',
+          category: 'dinner',
+          prepMinutes: 15,
+          cookMinutes: 30,
+          rating: 4.8,
+        ),
+        _recipe(
+          id: '2',
+          title: 'Quick Salad',
+          category: 'lunch',
+          prepMinutes: 10,
+          cookMinutes: 0,
+          rating: 4.2,
+        ),
+        _recipe(
+          id: '3',
+          title: 'Pancakes',
+          category: 'breakfast',
+          prepMinutes: 10,
+          cookMinutes: 15,
+          rating: 4.5,
+        ),
       ],
       categories: const [
         Category(id: 'dinner', name: 'Dinner', emoji: '🍝'),
@@ -107,7 +131,9 @@ void main() {
     await flushCacheManagerCleanupTimer(tester);
   });
 
-  testWidgets('typing in the search field filters the recipe list', (tester) async {
+  testWidgets('typing in the search field filters the recipe list', (
+    tester,
+  ) async {
     _mockImageLoading();
     await tester.pumpWidget(_wrap(store));
     await tester.pumpAndSettle();
@@ -122,7 +148,9 @@ void main() {
     await flushCacheManagerCleanupTimer(tester);
   });
 
-  testWidgets('tapping a category chip filters to that category', (tester) async {
+  testWidgets('tapping a category chip filters to that category', (
+    tester,
+  ) async {
     _mockImageLoading();
     await tester.pumpWidget(_wrap(store));
     await tester.pumpAndSettle();
@@ -137,7 +165,9 @@ void main() {
     await flushCacheManagerCleanupTimer(tester);
   });
 
-  testWidgets('tapping the grid-density toggle changes its icon', (tester) async {
+  testWidgets('tapping the grid-density toggle changes its icon', (
+    tester,
+  ) async {
     _mockImageLoading();
     await tester.pumpWidget(_wrap(store));
     await tester.pumpAndSettle();

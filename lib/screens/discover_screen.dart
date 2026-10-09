@@ -6,6 +6,7 @@ import '../state/recipe_store.dart';
 import '../widgets/category_chip.dart';
 import '../widgets/recipe_card.dart';
 import '../widgets/section_header.dart';
+
 import 'package:savorly/l10n/app_localizations.dart';
 
 enum _SortMode { rating, quickest, newest }

@@ -8,6 +8,7 @@ import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/recipe_detail_screen.dart';
 import '../state/recipe_store.dart';
+
 import 'package:savorly/l10n/app_localizations.dart';
 
 class _NavDestination {
@@ -25,7 +26,8 @@ class _NavDestination {
   final String Function(BuildContext context) labelOf;
 }
 
-String _homeLabel(BuildContext context) => AppLocalizations.of(context)!.navHome;
+String _homeLabel(BuildContext context) =>
+    AppLocalizations.of(context)!.navHome;
 String _discoverLabel(BuildContext context) =>
     AppLocalizations.of(context)!.navDiscover;
 String _favoritesLabel(BuildContext context) =>
@@ -34,13 +36,7 @@ String _profileLabel(BuildContext context) =>
     AppLocalizations.of(context)!.navProfile;
 
 const _destinations = [
-  _NavDestination(
-    '/',
-    'home',
-    Icons.home_outlined,
-    Icons.home,
-    _homeLabel,
-  ),
+  _NavDestination('/', 'home', Icons.home_outlined, Icons.home, _homeLabel),
   _NavDestination(
     '/discover',
     'discover',
@@ -80,8 +76,7 @@ class AppShell extends StatelessWidget {
     final currentIndex = _indexForLocation(location);
     final isTablet = MediaQuery.sizeOf(context).width >= 600;
 
-    void onSelect(int index) =>
-        context.goNamed(_destinations[index].routeName);
+    void onSelect(int index) => context.goNamed(_destinations[index].routeName);
 
     if (isTablet) {
       return Scaffold(

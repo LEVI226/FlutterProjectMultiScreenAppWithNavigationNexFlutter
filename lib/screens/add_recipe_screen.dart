@@ -107,11 +107,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         .toList();
     if (ingredients.isEmpty || steps.isEmpty) {
       final l10n = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.addRecipeValidationSnack),
-        ),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(l10n.addRecipeValidationSnack)));
       return;
     }
 
@@ -198,7 +195,9 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _titleController,
-                  decoration: InputDecoration(labelText: l10n.addRecipeNameLabel),
+                  decoration: InputDecoration(
+                    labelText: l10n.addRecipeNameLabel,
+                  ),
                   validator: (value) =>
                       (value == null || value.trim().length < 3)
                       ? l10n.addRecipeNameError
@@ -208,7 +207,9 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 TextFormField(
                   controller: _descriptionController,
                   maxLines: 3,
-                  decoration: InputDecoration(labelText: l10n.addRecipeDescriptionLabel),
+                  decoration: InputDecoration(
+                    labelText: l10n.addRecipeDescriptionLabel,
+                  ),
                   validator: (value) => (value == null || value.trim().isEmpty)
                       ? l10n.addRecipeDescriptionError
                       : null,
@@ -246,7 +247,9 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
                   initialValue: _category,
-                  decoration: InputDecoration(labelText: l10n.addRecipeCategoryLabel),
+                  decoration: InputDecoration(
+                    labelText: l10n.addRecipeCategoryLabel,
+                  ),
                   items: [
                     for (final category in categories)
                       DropdownMenuItem(
@@ -390,7 +393,9 @@ class _IngredientRow extends StatelessWidget {
             flex: 3,
             child: TextFormField(
               controller: draft.name,
-              decoration: InputDecoration(hintText: l10n.addRecipeIngredientHint),
+              decoration: InputDecoration(
+                hintText: l10n.addRecipeIngredientHint,
+              ),
             ),
           ),
           const SizedBox(width: 8),
@@ -456,7 +461,9 @@ class _StepRow extends StatelessWidget {
             ),
             TextFormField(
               controller: draft.title,
-              decoration: InputDecoration(hintText: l10n.addRecipeStepTitleHint),
+              decoration: InputDecoration(
+                hintText: l10n.addRecipeStepTitleHint,
+              ),
             ),
             const SizedBox(height: 8),
             TextFormField(

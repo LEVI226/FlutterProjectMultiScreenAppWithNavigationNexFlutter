@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../state/recipe_store.dart';
 import '../widgets/recipe_card.dart';
 import '../widgets/section_header.dart';
+
 import 'package:savorly/l10n/app_localizations.dart';
 
 class FavoritesScreen extends StatelessWidget {

@@ -7,6 +7,7 @@ import '../widgets/featured_recipe_card.dart';
 import '../widgets/quick_recipe_tile.dart';
 import '../widgets/recipe_card.dart';
 import '../widgets/section_header.dart';
+
 import 'package:savorly/l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
