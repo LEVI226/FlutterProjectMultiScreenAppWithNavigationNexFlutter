@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/recipe.dart';
@@ -35,19 +36,17 @@ class RecipeCard extends StatelessWidget {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.network(
-                      recipe.imageUrl,
+                    CachedNetworkImage(
+                      imageUrl: recipe.imageUrl,
                       fit: BoxFit.cover,
-                      loadingBuilder: (context, child, progress) {
-                        if (progress == null) return child;
-                        return ColoredBox(
-                          color: colorScheme.surfaceContainerHigh,
-                          child: const Center(
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) => ColoredBox(
+                      fadeInDuration: const Duration(milliseconds: 200),
+                      placeholder: (context, url) => ColoredBox(
+                        color: colorScheme.surfaceContainerHigh,
+                        child: const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => ColoredBox(
                         color: colorScheme.surfaceContainerHigh,
                         child: Icon(
                           Icons.restaurant,

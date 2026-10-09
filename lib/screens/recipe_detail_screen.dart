@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/recipe.dart';
@@ -73,18 +74,14 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    recipe.imageUrl,
+                  CachedNetworkImage(
+                    imageUrl: recipe.imageUrl,
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, progress) =>
-                        progress == null
-                        ? child
-                        : ColoredBox(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHigh,
-                          ),
-                    errorBuilder: (context, error, stackTrace) => ColoredBox(
+                    fadeInDuration: const Duration(milliseconds: 200),
+                    placeholder: (context, url) => ColoredBox(
+                      color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                    ),
+                    errorWidget: (context, url, error) => ColoredBox(
                       color: Theme.of(context).colorScheme.surfaceContainerHigh,
                       child: const Icon(Icons.restaurant, size: 48),
                     ),
