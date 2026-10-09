@@ -13,6 +13,7 @@
   "homeSeeAll": "See all",
   "homeQuickAndEasy": "Quick & Easy",
   "homeQuickSubtitle": "Ready in 30 minutes or less",
+  "homeViewRecipe": "View Recipe",
   "discoverTitle": "Discover",
   "discoverRecipesFound": "{count} recipes found",
   "@discoverRecipesFound": {

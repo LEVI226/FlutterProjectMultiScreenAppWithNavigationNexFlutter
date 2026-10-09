@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/recipe.dart';
 
 class FeaturedRecipeCard extends StatelessWidget {
@@ -15,6 +16,7 @@ class FeaturedRecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Card(
@@ -92,7 +94,7 @@ class FeaturedRecipeCard extends StatelessWidget {
                   ),
                   FilledButton(
                     onPressed: onTap,
-                    child: const Text('View Recipe'),
+                    child: Text(l10n.homeViewRecipe),
                   ),
                 ],
               ),
