@@ -17,20 +17,14 @@ import 'package:savorly/state/recipe_store.dart';
 // errorWidget builds immediately.
 //
 // A fresh CacheManager (with a unique cache key) is built inside every test
-// body rather than reused as a shared singleton, for two independent
-// reasons:
-//   1. CacheManager's constructor kicks off CacheStore's
-//      `config.repo.open().then(...)` future immediately, and that future
-//      is bound to whichever Dart zone it was created in. flutter_test
-//      runs each test body in its own zone, so a CacheManager built outside
-//      a given test body (e.g. in setUp(), or reused from an earlier test)
-//      would have its internal future tied to a zone that test's
-//      pumpAndSettle() can't service, hanging forever.
-//   2. All the test recipes here share the same (empty) imageUrl, and
-//      WebHelper's in-flight-request bookkeeping is keyed by url — so even
-//      within the right zone, reusing one instance across tests could let a
-//      later test's image request get stuck subscribed to an
-//      already-finished stream left over from an earlier test.
+// body rather than reused as a shared singleton, for the reason below:
+// CacheManager's constructor kicks off CacheStore's
+// `config.repo.open().then(...)` future immediately, and that future is
+// bound to whichever Dart zone it was created in. flutter_test runs each
+// test body in its own zone, so a CacheManager built outside a given test
+// body (e.g. in setUp(), or reused from an earlier test) would have its
+// internal future tied to a zone that test's pumpAndSettle() can't service,
+// hanging forever.
 int _cacheManagerSeq = 0;
 
 void _mockImageLoading() {

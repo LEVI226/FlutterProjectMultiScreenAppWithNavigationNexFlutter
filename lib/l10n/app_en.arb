@@ -15,7 +15,7 @@
   "homeQuickSubtitle": "Ready in 30 minutes or less",
   "homeViewRecipe": "View Recipe",
   "discoverTitle": "Discover",
-  "discoverRecipesFound": "{count} recipes found",
+  "discoverRecipesFound": "{count, plural, one{{count} recipe found} other{{count} recipes found}}",
   "@discoverRecipesFound": {
     "placeholders": { "count": { "type": "int" } }
   },
@@ -38,7 +38,7 @@
   "discoverGridDensityTooltip": "Grid density",
   "discoverAddRecipeFab": "Recipe",
   "favoritesTitle": "Favorites",
-  "favoritesSavedCount": "{count} saved recipes",
+  "favoritesSavedCount": "{count, plural, one{{count} saved recipe} other{{count} saved recipes}}",
   "@favoritesSavedCount": {
     "placeholders": { "count": { "type": "int" } }
   },

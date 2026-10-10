@@ -67,7 +67,7 @@ Every icon-only interactive control (the favorite-toggle button, ingredient/step
 | Performance: optimized/lazy images | `cached_network_image` caches and fades in every recipe photo; the Home screen's horizontal recipe carousels and the Recipe Detail steps list use `ListView.separated`'s lazy item building. Discover/Favorites' grids use `GridView.builder` nested in a scrollable `ListView` (not independently lazy, since the whole screen scrolls as one unit) — acceptable at this app's data scale (a few dozen recipes), but not claimed as independently lazy |
 | Accessibility: semantic labels | See "Accessibility" above |
 | Internationalization: FR + EN | See "Internationalization" above |
-| CI/CD (GitHub Actions) | `.github/workflows/ci.yml` — `dart format`, `flutter analyze`, `flutter test` on every push/PR to `main` |
+| CI/CD (GitHub Actions) | `.github/workflows/ci.yml` — `dart format`, `flutter analyze`, `flutter test` on every push/PR |
 | Clean static analysis | `flutter analyze` — 0 issues |
 | Professional README | This file |
 | CHANGELOG.md, 3+ versions | [CHANGELOG.md](CHANGELOG.md) — `1.0.0`, `1.1.0`, `1.2.0` |
