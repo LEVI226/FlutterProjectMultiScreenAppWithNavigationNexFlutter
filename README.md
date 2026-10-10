@@ -67,7 +67,7 @@ Every icon-only interactive control (the favorite-toggle button, ingredient/step
 | Performance: optimized/lazy images | `cached_network_image` caches and fades in every recipe photo; the Home screen's horizontal recipe carousels and the Recipe Detail steps list use `ListView.separated`'s lazy item building. Discover/Favorites' grids use `GridView.builder` nested in a scrollable `ListView` (not independently lazy, since the whole screen scrolls as one unit) — acceptable at this app's data scale (a few dozen recipes), but not claimed as independently lazy |
 | Accessibility: semantic labels | See "Accessibility" above |
 | Internationalization: FR + EN | See "Internationalization" above |
-| CI/CD (GitHub Actions) | `.github/workflows/ci.yml` — `dart format`, `flutter analyze`, `flutter test` on every push/PR |
+| CI/CD (GitHub Actions) | `.github/workflows/ci.yml` — `dart format`, `flutter analyze`, `flutter test` on every push/PR, plus a second job running both integration tests via `flutter drive` + headless Chrome |
 | Clean static analysis | `flutter analyze` — 0 issues |
 | Professional README | This file |
 | CHANGELOG.md, 3+ versions | [CHANGELOG.md](CHANGELOG.md) — `1.0.0`, `1.1.0`, `1.2.0` |
@@ -81,7 +81,7 @@ flutter test
 
 The suite is 29 unit/widget tests total: 18 unit tests covering model JSON parsing, repository loading, store derivations/mutations, and theme/locale state, plus 11 widget tests covering reusable cards, screen-level interactions (search/filter/sort on Discover, form validation and publish flow on Add Recipe), and app navigation.
 
-Integration tests exercise the real running app end-to-end and need a connected device/browser — they are **not** part of the CI workflow above (a deliberate scope decision, not an oversight: most CI setups run integration tests in a separate, slower lane, or only locally/on-device, since they need an emulator or browser driver CI would have to provision separately).
+Integration tests exercise the real running app end-to-end via `flutter drive` + headless Chrome + chromedriver on `ubuntu-latest` GitHub Actions runners, in a separate `integration-test` job in the same CI workflow. This job runs with `continue-on-error: true` — web-based browser-driver integration tests are inherently more environment-sensitive (headless browser flags, driver/browser version matching) than the unit/widget suite, so a transient CI-environment issue there doesn't block the overall build status, while the tests still run and report on every push/PR.
 
 On a native device or emulator (Android/iOS/desktop), they run directly:
 
@@ -114,11 +114,10 @@ No iOS/IPA build — this project was developed without access to a Mac/Xcode to
 
 ## Screenshots
 
-<div align="center">
-  <img src="docs/screenshots/home.png" width="220" alt="Home Screen" />
-  <img src="docs/screenshots/discover.png" width="220" alt="Discover Screen" />
-  <img src="docs/screenshots/favorites.png" width="220" alt="Favorites Screen" />
-  <img src="docs/screenshots/recipe_detail.png" width="220" alt="Recipe Detail Screen" />
-  <img src="docs/screenshots/add_recipe.png" width="220" alt="Add Recipe Screen" />
-  <img src="docs/screenshots/profile_dark_mode.png" width="220" alt="Profile and Dark Mode" />
-</div>
+| Home | Discover | Favorites |
+|---|---|---|
+| ![Home Screen](docs/screenshots/home.png) | ![Discover Screen](docs/screenshots/discover.png) | ![Favorites Screen](docs/screenshots/favorites.png) |
+
+| Recipe Detail | Add Recipe | Profile (Dark Mode) |
+|---|---|---|
+| ![Recipe Detail Screen](docs/screenshots/recipe_detail.png) | ![Add Recipe Screen](docs/screenshots/add_recipe.png) | ![Profile and Dark Mode](docs/screenshots/profile_dark_mode.png) |

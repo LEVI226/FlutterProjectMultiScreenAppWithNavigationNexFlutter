@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.2.1] - 2026-10-10
+
+### Added
+
+- CI now also runs both integration tests (`flutter drive` + headless Chrome + chromedriver) in a dedicated job on every push/PR, in addition to the unit/widget suite.
+
+### Changed
+
+- README screenshots now use standard Markdown image syntax instead of raw HTML `<img>` tags, for broader compatibility with Markdown-only parsers/reviewers.
+
 ## [1.2.0] - 2026-10-10
 
 ### Added

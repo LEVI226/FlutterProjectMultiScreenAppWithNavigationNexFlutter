@@ -17,3 +17,34 @@ jobs:
       - run: dart format --set-exit-if-changed .
       - run: flutter analyze
       - run: flutter test
+
+  integration-test:
+    runs-on: ubuntu-latest
+    # Web integration tests via flutter drive + chromedriver are inherently
+    # more environment-sensitive (headless Chrome, driver/browser version
+    # matching) than the unit/widget suite above. continue-on-error keeps a
+    # transient failure here from blocking the overall CI status, while
+    # still running and reporting these tests on every push/PR.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.3'
+          channel: 'stable'
+      - run: flutter pub get
+      - uses: nanasess/setup-chromedriver@v2
+      - name: Start chromedriver
+        run: chromedriver --port=4444 &
+      - name: Run favorite-flow integration test
+        run: |
+          flutter drive \
+            --driver=test_driver/integration_test.dart \
+            --target=integration_test/favorite_flow_test.dart \
+            -d web-server --browser-name=chrome --driver-port=4444 --headless
+      - name: Run add-recipe-flow integration test
+        run: |
+          flutter drive \
+            --driver=test_driver/integration_test.dart \
+            --target=integration_test/add_recipe_flow_test.dart \
+            -d web-server --browser-name=chrome --driver-port=4444 --headless
